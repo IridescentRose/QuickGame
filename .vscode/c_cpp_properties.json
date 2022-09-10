@@ -1,0 +1,28 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c17",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "linux-clang-x64"
+        },
+        {
+            "name": "PSP",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/usr/local/pspdev/psp/sdk/include/**",
+                "/usr/local/pspdev/psp/include/**"
+            ],
+            "compilerPath": "/usr/local/pspdev/bin/psp-gcc",
+            "cStandard": "c11",
+            "intelliSenseMode": "linux-clang-x64",
+            "cppStandard": "c++17"
+        }
+    ],
+    "version": 4
+}
