@@ -11,10 +11,4 @@ add_library(QuickGame STATIC ${SRC_FILES} ${INC_FILES})
 
 target_link_libraries(QuickGame PUBLIC pspgum pspgu pspge psputility pspdisplay pspctrl pspnet pspnet_apctl psppower pspaudio)
 target_include_directories(QuickGame PUBLIC gu2gl/)
-
-option(BUILD_TESTS "Build test programs" ON)
-
-if(BUILD_TESTS)
-    enable_testing()
-    add_subdirectory(tests)
-endif()
+target_include_directories(QuickGame PUBLIC include/)
