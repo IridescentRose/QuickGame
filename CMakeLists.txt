@@ -12,3 +12,5 @@ add_library(QuickGame STATIC ${SRC_FILES} ${INC_FILES})
 target_link_libraries(QuickGame PUBLIC pspgum pspgu pspge psputility pspdisplay pspctrl pspnet pspnet_apctl psppower pspaudio)
 target_include_directories(QuickGame PUBLIC gu2gl/)
 target_include_directories(QuickGame PUBLIC include/)
+
+target_compile_options(QuickGame PRIVATE -Wall -Wextra -Werror)

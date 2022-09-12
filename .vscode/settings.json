@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "quickgame.h": "c"
+        "quickgame.h": "c",
+        "gu2gl.h": "c",
+        "graphicscontext.h": "c"
     }
 }

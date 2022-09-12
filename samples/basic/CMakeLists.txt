@@ -14,4 +14,5 @@ target_include_directories(basic PUBLIC ../../include)
 create_pbp_file(
     TARGET basic
     TITLE basic
+    BUILD_PRX ON
 )
