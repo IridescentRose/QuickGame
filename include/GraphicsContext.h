@@ -55,7 +55,7 @@ void QuickGame_Graphics_End_Frame(bool vsync);
  * 
  * @param color Background color
  */
-void QuickGame_Graphics_Set_Clear_Color(Color color);
+void QuickGame_Graphics_Set_Clear_Color(QGColor color);
 
 /**
  * @brief Clears the screen

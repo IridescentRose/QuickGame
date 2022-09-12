@@ -3,7 +3,7 @@
 #include <gu2gl.h>
 
 static u32 __attribute__((aligned(16))) list[262144];
-static Color clearColor;
+static QGColor clearColor;
 
 static bool dialogMode;
 
@@ -28,7 +28,7 @@ void QuickGame_Graphics_End_Frame(bool vsync){
     guglSwapBuffers(vsync, dialogMode);
 }
 
-void QuickGame_Graphics_Set_Clear_Color(Color color) {
+void QuickGame_Graphics_Set_Clear_Color(QGColor color) {
     clearColor = color;
     glClearColor(clearColor.color);
 }

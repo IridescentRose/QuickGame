@@ -6,7 +6,7 @@ int main(int argc, char** argv){
     if(QuickGame_Init() < 0)
         return 1;
 
-    Color col;
+    QGColor col;
     col.color = 0xFFFFFFFF;
 
     QuickGame_Graphics_Set_Clear_Color(col);

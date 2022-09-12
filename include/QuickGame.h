@@ -24,7 +24,7 @@ extern "C" {
  * @return < 0 on failure, 0 on success
  * 
  */
-s32 QuickGame_Init();
+i32 QuickGame_Init();
 
 /**
  * @brief 
@@ -43,6 +43,36 @@ void QuickGame_Terminate();
  * 
  */
 void QuickGame_Request_Exit();
+
+/**
+ * MEMORY ALLOCATION
+ * TO OVERRIDE THESE FUNCTIONS
+ * #define QUICKGAME_CUSTOM_ALLOCATOR
+ */
+
+/**
+ * @brief Allocates memory of size n
+ * 
+ * @param n Size in bytes to allocate
+ * @return anyopaque* Result or NULL if failed
+ */
+anyopaque* QuickGame_Allocate(usize n);
+
+/**
+ * @brief Allocates memory of size n and aligned to a bytes
+ * 
+ * @param a 
+ * @param n 
+ * @return anyopaque* 
+ */
+anyopaque* QuickGame_Allocate_Aligned(usize a, usize n);
+
+/**
+ * @brief Destroyes memory allocation
+ * 
+ * @param src Memory allocation to destroy
+ */
+void QuickGame_Destroy(anyopaque* src);
 
 #if __cplusplus
 };

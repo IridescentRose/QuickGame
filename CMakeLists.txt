@@ -8,9 +8,12 @@ file(GLOB_RECURSE SRC_FILES src/*.c)
 file(GLOB_RECURSE INC_FILES include/*.h)
 
 add_library(QuickGame STATIC ${SRC_FILES} ${INC_FILES})
+add_library(STBI STATIC stbi/stb_image.h stbi/stbi.c)
 
-target_link_libraries(QuickGame PUBLIC pspgum pspgu pspge psputility pspdisplay pspctrl pspnet pspnet_apctl psppower pspaudio)
+target_link_libraries(QuickGame PUBLIC pspgum pspgu pspge psputility pspdisplay pspctrl pspnet pspnet_apctl psppower pspaudio STBI)
 target_include_directories(QuickGame PUBLIC gu2gl/)
+target_include_directories(QuickGame PUBLIC stbi/)
 target_include_directories(QuickGame PUBLIC include/)
 
-target_compile_options(QuickGame PRIVATE -Wall -Wextra -Werror)
+target_compile_options(QuickGame PRIVATE -Wall -Werror)
+

@@ -1,6 +1,8 @@
 #include <QuickGame.h>
 #include <GraphicsContext.h>
 #include <pspkernel.h>
+#include <malloc.h>
+#include <string.h>
 
 PSP_MODULE_INFO("QuickGame", 0, 1, 1);
 PSP_MAIN_THREAD_ATTR(THREAD_ATTR_USER | THREAD_ATTR_VFPU);
@@ -52,7 +54,7 @@ void QuickGame_Request_Exit() {
     exitRequest = true;
 }
 
-s32 QuickGame_Init() {
+i32 QuickGame_Init() {
     if(setupCallbacks() < 0){
         return -1;
     }
@@ -68,3 +70,28 @@ void QuickGame_Terminate() {
     QuickGame_Graphics_Terminate();
     sceKernelExitGame();
 }
+
+#ifndef QUICKGAME_CUSTOM_ALLOCATOR
+anyopaque* QuickGame_Allocate(usize n) {
+    anyopaque* a = malloc(n);
+    if(a != NULL){
+        memset(a, 0, n);
+    }
+
+    return a;
+}
+
+anyopaque* QuickGame_Allocate_Aligned(usize a, usize n) {
+    anyopaque* p = memalign(a, n);
+    if(p != NULL){
+        memset(p, 0, n);
+    }
+
+    return p;
+}
+
+void QuickGame_Destroy(anyopaque* src) {
+    if(src)
+        free(src);
+}
+#endif
