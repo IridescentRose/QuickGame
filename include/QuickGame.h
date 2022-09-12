@@ -12,8 +12,10 @@
 #ifndef _QUICKGAME_INCLUDED_H_
 #define _QUICKGAME_INCLUDED_H_
 
-#include <Types.h>
 #include <GraphicsContext.h>
+#include <Sprite.h>
+#include <Texture.h>
+#include <Types.h>
 
 #if __cplusplus
 extern "C" {

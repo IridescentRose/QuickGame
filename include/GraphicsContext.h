@@ -63,6 +63,36 @@ void QuickGame_Graphics_Set_Clear_Color(QGColor color);
  */
 void QuickGame_Graphics_Clear();
 
+/**
+ * @brief Sets rendering for 2D -- must be called inside of StartFrame() EndFrame()
+ * 
+ */
+void QuickGame_Graphics_Set2D();
+
+/**
+ * @brief Creates a mesh with the select mesh type and number of elements
+ * 
+ * @param type Type of Mesh
+ * @param vcount Vertex Count
+ * @param icount Index Count
+ * @return QGVMesh* Result Mesh or NULL on failure.
+ */
+QGVMesh* QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const usize icount);
+
+/**
+ * @brief Destroys a Graphics Mesh and sets pointer to NULL.
+ * 
+ * @param mesh Pointer to Mesh to destroy
+ */
+void QuickGame_Graphics_Destroy_Mesh(QGVMesh** mesh);
+
+/**
+ * @brief Draws a Graphics Mesh
+ * 
+ * @param mesh Mesh to draw
+ */
+void QuickGame_Graphics_Draw_Mesh(QGVMesh* mesh);
+
 #if __cplusplus
 };
 #endif

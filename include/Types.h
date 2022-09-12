@@ -37,6 +37,13 @@ typedef i32 isize;
 
 
 /**
+ * @brief Floating point types
+ * 
+ */
+typedef float f32;
+typedef double f64;
+
+/**
  * @brief Color Union
  * 
  */
@@ -61,5 +68,70 @@ typedef struct {
     u32 pWidth, pHeight;
     anyopaque* data;
 } QGTexture;
+
+/**
+ * @brief Vector2
+ */
+typedef struct {
+    f32 x, y;
+} QGVector2;
+
+/**
+ * @brief Vector3
+ * 
+ */
+typedef struct {
+    f32 x, y, z;
+} QGVector3;
+
+/**
+ * @brief Transform2D
+ * 
+ */
+typedef struct {
+    QGVector2 position;
+    f32 rotation;
+    QGVector2 scale;
+} QGTransform2D;
+
+/**
+ * @brief Vertex with Texture, Color, and Position
+ * 
+ */
+typedef struct __attribute__((aligned(16))){
+    float u, v;
+    QGColor color;
+    float x, y, z;
+} QGTexturedVertex;
+
+/**
+ * @brief Vertex with Color and Position
+ * 
+ */
+typedef struct __attribute__((aligned(16))){
+    QGColor color;
+    float x, y, z;
+} QGColoredVertex;
+
+/**
+ * @brief Vertex types
+ * 
+ */
+typedef enum {
+    QG_VERTEX_TYPE_TEXTURED = 0x00,
+    QG_VERTEX_TYPE_COLORED = 0x01
+} QGVType;
+
+/**
+ * @brief Basic Mesh data structure
+ * 
+ */
+typedef struct {
+    u8 type;
+    usize count;
+
+    void* data;
+    u16* indices;
+} QGVMesh;
 
 #endif
