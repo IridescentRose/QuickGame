@@ -11,9 +11,10 @@ int main(int argc, char** argv){
     QuickGame_Graphics_Set_Clear_Color(col);
 
     QGTexture* tex = QuickGame_Texture_Load("circle.png", 0, 0);
-    QGVector2 position = {128, 128};
+    QGVector2 position = {240, 136};
     QGVector2 size = {256, 256};
     QGSprite* sprite = QuickGame_Sprite_Create(position, size, tex);
+    sprite->color.color = 0xFF00FF00;
 
     while(QuickGame_Running()){
         QuickGame_Graphics_Start_Frame();

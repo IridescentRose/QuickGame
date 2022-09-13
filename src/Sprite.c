@@ -3,6 +3,7 @@
 #include <Types.h>
 #include <stddef.h>
 #include <gu2gl.h>
+#include <pspkernel.h>
 
 QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture* texture) {
     if(!texture)
@@ -11,6 +12,9 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
     QGSprite* sprite = QuickGame_Allocate(sizeof(QGSprite));
     if(!sprite)
         return NULL;
+
+    sprite->layer = 0;
+    sprite->color.color = 0xFFFFFFFF;
 
     sprite->transform.position = position;
     sprite->transform.scale = size;
@@ -25,7 +29,6 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
     QGTexturedVertex* verts = sprite->mesh->data;
     verts[0].u = 0.0f;
     verts[0].v = 0.0f;
-    verts[0].color.color = 0xFFFFFFFF;
     verts[0].x = -0.5f;
     verts[0].y = -0.5f;
     verts[0].z = 0.0f;
@@ -33,7 +36,6 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
 
     verts[1].u = 1.0f;
     verts[1].v = 0.0f;
-    verts[1].color.color = 0xFFFFFFFF;
     verts[1].x = 0.5f;
     verts[1].y = -0.5f;
     verts[1].z = 0.0f;
@@ -41,7 +43,6 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
 
     verts[2].u = 1.0f;
     verts[2].v = 1.0f;
-    verts[2].color.color = 0xFFFFFFFF;
     verts[2].x = 0.5f;
     verts[2].y = 0.5f;
     verts[2].z = 0.0f;
@@ -49,7 +50,6 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
 
     verts[3].u = 0.0f;
     verts[3].v = 1.0f;
-    verts[3].color.color = 0xFFFFFFFF;
     verts[3].x = -0.5f;
     verts[3].y = 0.5f;
     verts[3].z = 0.0f;
@@ -61,6 +61,8 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
     indices[3] = 2;
     indices[4] = 3;
     indices[5] = 0;
+
+    sceKernelDcacheWritebackInvalidateAll();
 
     return sprite;
 }
@@ -91,15 +93,19 @@ void QuickGame_Sprite_Draw(QGSprite* sprite) {
     glMatrixMode(GL_MODEL);
     glLoadIdentity();
 
-    ScePspFVector3 v = {sprite->transform.scale.x, sprite->transform.scale.y, 1.0f};
-    gluScale(&v); 
-    gluRotateZ(sprite->transform.rotation);
+
     ScePspFVector3 v1 = {sprite->transform.position.x, sprite->transform.position.y, sprite->layer};
     gluTranslate(&v1);
+
+    gluRotateZ(sprite->transform.rotation / 180.0f * GL_PI);
+
+    ScePspFVector3 v = {sprite->transform.scale.x, sprite->transform.scale.y, 1.0f};
+    gluScale(&v); 
+    
+    glColor(sprite->color.color);
 
     QuickGame_Texture_Bind(sprite->texture);
     QuickGame_Graphics_Draw_Mesh(sprite->mesh);
     QuickGame_Texture_Unbind(sprite->texture);
 
-    glLoadIdentity();
 }

@@ -2,6 +2,9 @@
     "files.associations": {
         "quickgame.h": "c",
         "gu2gl.h": "c",
-        "graphicscontext.h": "c"
+        "graphicscontext.h": "c",
+        "stddef.h": "c",
+        "types.h": "c",
+        "sprite.h": "c"
     }
 }

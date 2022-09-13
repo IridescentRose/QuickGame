@@ -98,9 +98,8 @@ typedef struct {
  * @brief Vertex with Texture, Color, and Position
  * 
  */
-typedef struct __attribute__((aligned(16))){
+typedef struct {
     float u, v;
-    QGColor color;
     float x, y, z;
 } QGTexturedVertex;
 
@@ -108,7 +107,7 @@ typedef struct __attribute__((aligned(16))){
  * @brief Vertex with Color and Position
  * 
  */
-typedef struct __attribute__((aligned(16))){
+typedef struct {
     QGColor color;
     float x, y, z;
 } QGColoredVertex;

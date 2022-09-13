@@ -57,6 +57,18 @@ QGVMesh* QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const
         return NULL;
     }
 
+    if(!mesh->data) {
+        QuickGame_Destroy(mesh);
+        QuickGame_Destroy(mesh->indices);
+        return NULL;
+    }
+
+    if(!mesh->indices) {
+        QuickGame_Destroy(mesh->data);
+        QuickGame_Destroy(mesh);
+        return NULL;
+    }
+
     return mesh;
 }
 
@@ -75,13 +87,14 @@ void QuickGame_Graphics_Draw_Mesh(QGVMesh* mesh) {
     if(!mesh || !mesh->data || !mesh->indices)
         return;
     
-    usize vtype = GL_INDEX_16BIT | GL_COLOR_8888 | GL_VERTEX_32BITF | GL_TRANSFORM_3D;
+    usize vtype = GL_INDEX_16BIT | GL_VERTEX_32BITF | GL_TRANSFORM_3D;
 
     if(mesh->type == QG_VERTEX_TYPE_TEXTURED){
         glEnable(GL_TEXTURE_2D);
         vtype |= GL_TEXTURE_32BITF;
     } else if (mesh->type == QG_VERTEX_TYPE_COLORED) {
         glDisable(GL_TEXTURE_2D);
+        vtype |= GL_COLOR_8888;
         QuickGame_Texture_Unbind();
     } else {
         return;
@@ -93,11 +106,12 @@ void QuickGame_Graphics_Set2D() {
     glDisable(GL_DEPTH_TEST);
     glBlendFunc(GU_ADD, GU_SRC_ALPHA, GU_ONE_MINUS_SRC_ALPHA, 0, 0);
     glEnable(GL_BLEND);
+    glFrontFace(GL_CCW);
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    glOrtho(0, 480, 0, 272, -30, 30);
-
+    glOrtho(0.0f, 480.0f, 0.0f, 272.0f, -30.0f, 30.0f);
+    
     glMatrixMode(GL_VIEW);
     glLoadIdentity();
 

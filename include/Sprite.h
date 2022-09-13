@@ -21,6 +21,7 @@ extern "C" {
 typedef struct {
     QGTransform2D transform;
     i32 layer;
+    QGColor color;
     QGTexture* texture;
     QGVMesh* mesh;
 } QGSprite;
