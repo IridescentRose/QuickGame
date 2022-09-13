@@ -50,7 +50,7 @@ void copy_texture_data(void* dest, const void* src, const int pW, const int widt
     }
 }
 
-QGTexture* QuickGame_Texture_Load(const char* filename, const unsigned int flip, const unsigned int vram) {
+QGTexture_t QuickGame_Texture_Load(const char* filename, const unsigned int flip, const unsigned int vram) {
     
     int width, height, nrChannels;    
     stbi_set_flip_vertically_on_load(flip);
@@ -60,7 +60,7 @@ QGTexture* QuickGame_Texture_Load(const char* filename, const unsigned int flip,
     if(!data)
         return NULL;
 
-    QGTexture* tex = (QGTexture*)QuickGame_Allocate(sizeof(QGTexture));
+    QGTexture_t tex = (QGTexture_t)QuickGame_Allocate(sizeof(QGTexture));
     if(!tex) {
         stbi_image_free(data);
         return NULL;
@@ -107,13 +107,13 @@ QGTexture* QuickGame_Texture_Load(const char* filename, const unsigned int flip,
     return tex;
 }
 
-void QuickGame_Texture_Destroy(QGTexture** texture) {
+void QuickGame_Texture_Destroy(QGTexture_t* texture) {
     QuickGame_Destroy((*texture)->data);
     QuickGame_Destroy(*texture);
     *texture = NULL;
 }
 
-void QuickGame_Texture_Bind(const QGTexture* texture) {
+void QuickGame_Texture_Bind(const QGTexture_t texture) {
     if(texture == NULL)
         return;
 

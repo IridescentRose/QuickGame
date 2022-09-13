@@ -5,11 +5,18 @@
 #include <gu2gl.h>
 #include <pspkernel.h>
 
-QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture* texture) {
+QGSprite_t QuickGame_Sprite_Create_Alt(float x, float y, float w, float h, QGTexture_t texture) {
+    QGVector2 position = {x, y};
+    QGVector2 size = {w, h};
+
+    return QuickGame_Sprite_Create(position, size, texture);
+}
+
+QGSprite_t QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture_t texture) {
     if(!texture)
         return NULL;
 
-    QGSprite* sprite = QuickGame_Allocate(sizeof(QGSprite));
+    QGSprite_t sprite = QuickGame_Allocate(sizeof(QGSprite));
     if(!sprite)
         return NULL;
 
@@ -72,7 +79,7 @@ QGSprite* QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture*
  * 
  * @param sprite Pointer to Sprite
  */
-void QuickGame_Sprite_Destroy(QGSprite** sprite) {
+void QuickGame_Sprite_Destroy(QGSprite_t* sprite) {
     if(sprite != NULL)
         return;
     
@@ -86,7 +93,7 @@ void QuickGame_Sprite_Destroy(QGSprite** sprite) {
  * 
  * @param sprite 
  */
-void QuickGame_Sprite_Draw(QGSprite* sprite) {
+void QuickGame_Sprite_Draw(QGSprite_t sprite) {
     if(!sprite)
         return;
 

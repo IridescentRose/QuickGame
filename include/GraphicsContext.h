@@ -77,21 +77,21 @@ void QuickGame_Graphics_Set2D();
  * @param icount Index Count
  * @return QGVMesh* Result Mesh or NULL on failure.
  */
-QGVMesh* QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const usize icount);
+QGVMesh_t QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const usize icount);
 
 /**
  * @brief Destroys a Graphics Mesh and sets pointer to NULL.
  * 
  * @param mesh Pointer to Mesh to destroy
  */
-void QuickGame_Graphics_Destroy_Mesh(QGVMesh** mesh);
+void QuickGame_Graphics_Destroy_Mesh(QGVMesh_t* mesh);
 
 /**
  * @brief Draws a Graphics Mesh
  * 
  * @param mesh Mesh to draw
  */
-void QuickGame_Graphics_Draw_Mesh(QGVMesh* mesh);
+void QuickGame_Graphics_Draw_Mesh(QGVMesh_t mesh);
 
 #if __cplusplus
 };

@@ -24,23 +24,23 @@ extern "C" {
  * 
  * @param filename File to load
  * @param vram Whether the texture should be stored in VRAM
- * @return QGTexture* Texture loaded or NULL if failed
+ * @return QGTexture_t Texture loaded or NULL if failed
  */
-QGTexture* QuickGame_Texture_Load(const char* filename, const unsigned int flip, const unsigned int vram);
+QGTexture_t QuickGame_Texture_Load(const char* filename, const unsigned int flip, const unsigned int vram);
 
 /**
  * @brief Destroys a texture pointer
  * 
  * @param texture Texture to destroy, also sets the texture pointer to null.
  */
-void QuickGame_Texture_Destroy(QGTexture** texture);
+void QuickGame_Texture_Destroy(QGTexture_t* texture);
 
 /**
  * @brief Texture to bind to the graphics engine
  * 
  * @param texture Texture to bind
  */
-void QuickGame_Texture_Bind(const QGTexture* texture);
+void QuickGame_Texture_Bind(const QGTexture_t texture);
 
 /**
  * @brief Texture to unbind from the graphics engine

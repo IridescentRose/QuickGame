@@ -38,8 +38,8 @@ void QuickGame_Graphics_Clear(){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 }
 
-QGVMesh* QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const usize icount) {
-    QGVMesh* mesh = (QGVMesh*)QuickGame_Allocate(sizeof(QGVMesh));
+QGVMesh_t QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const usize icount) {
+    QGVMesh_t mesh = (QGVMesh_t)QuickGame_Allocate(sizeof(QGVMesh));
 
     if(!mesh)
         return NULL;
@@ -72,7 +72,7 @@ QGVMesh* QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const
     return mesh;
 }
 
-void QuickGame_Graphics_Destroy_Mesh(QGVMesh** mesh) {
+void QuickGame_Graphics_Destroy_Mesh(QGVMesh_t* mesh) {
     if(!mesh)
         return;
     
@@ -83,7 +83,7 @@ void QuickGame_Graphics_Destroy_Mesh(QGVMesh** mesh) {
 }
 
 
-void QuickGame_Graphics_Draw_Mesh(QGVMesh* mesh) {
+void QuickGame_Graphics_Draw_Mesh(QGVMesh_t mesh) {
     if(!mesh || !mesh->data || !mesh->indices)
         return;
     
@@ -111,7 +111,7 @@ void QuickGame_Graphics_Set2D() {
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0f, 480.0f, 0.0f, 272.0f, -30.0f, 30.0f);
-    
+
     glMatrixMode(GL_VIEW);
     glLoadIdentity();
 

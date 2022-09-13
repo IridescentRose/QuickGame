@@ -69,6 +69,8 @@ typedef struct {
     anyopaque* data;
 } QGTexture;
 
+typedef QGTexture *QGTexture_t;
+
 /**
  * @brief Vector2
  */
@@ -132,5 +134,7 @@ typedef struct {
     void* data;
     u16* indices;
 } QGVMesh;
+
+typedef QGVMesh *QGVMesh_t;
 
 #endif
