@@ -4,15 +4,15 @@
 #include <gu2gl.h>
 #include <pspkernel.h>
 
-void swizzle_fast(u8 *out, const u8 *in, const unsigned int width, const unsigned int height) {
-    unsigned int blockx, blocky;
-    unsigned int j;
+void swizzle_fast(u8 *out, const u8 *in, const u32 width, const u32 height) {
+    u32 blockx, blocky;
+    u32 j;
 
-    unsigned int width_blocks = (width / 16);
-    unsigned int height_blocks = (height / 8);
+    u32 width_blocks = (width / 16);
+    u32 height_blocks = (height / 8);
 
-    unsigned int src_pitch = (width - 16) / 4;
-    unsigned int src_row = width * 8;
+    u32 src_pitch = (width - 16) / 4;
+    u32 src_row = width * 8;
 
     const u8 *ysrc = in;
     u32 *dst = (u32 *)out;
@@ -34,8 +34,8 @@ void swizzle_fast(u8 *out, const u8 *in, const unsigned int width, const unsigne
     }
 }
 
-unsigned int pow2(const unsigned int value) {
-    unsigned int poweroftwo = 1;
+u32 pow2(const u32 value) {
+    u32 poweroftwo = 1;
     while (poweroftwo < value) {
         poweroftwo <<= 1;
     }
@@ -43,14 +43,18 @@ unsigned int pow2(const unsigned int value) {
 }
 
 void copy_texture_data(void* dest, const void* src, const int pW, const int width, const int height){
-    for (unsigned int y = 0; y < height; y++) {
-        for (unsigned int x = 0; x < width; x++) {
-            ((unsigned int*)dest)[x + y * pW] = ((unsigned int *)src)[x + y * width];
+    for (u32 y = 0; y < height; y++) {
+        for (u32 x = 0; x < width; x++) {
+            ((u32*)dest)[x + y * pW] = ((u32 *)src)[x + y * width];
         }
     }
 }
 
-QGTexture_t QuickGame_Texture_Load(const char* filename, const unsigned int flip, const unsigned int vram) {
+QGTexture_t QuickGame_Texture_Load_Alt(const QGTexInfo tex_info){
+    return QuickGame_Texture_Load(tex_info.filename, tex_info.flip, tex_info.vram);
+}
+
+QGTexture_t QuickGame_Texture_Load(const char* filename, const bool flip, const bool vram) {
     
     int width, height, nrChannels;    
     stbi_set_flip_vertically_on_load(flip);
@@ -71,7 +75,7 @@ QGTexture_t QuickGame_Texture_Load(const char* filename, const unsigned int flip
     tex->pWidth = pow2(width);
     tex->pHeight = pow2(height);
 
-    unsigned int *dataBuffer = QuickGame_Allocate_Aligned(16, tex->pHeight * tex->pWidth * 4);
+    u32 *dataBuffer = QuickGame_Allocate_Aligned(16, tex->pHeight * tex->pWidth * 4);
     if(!dataBuffer) {
         stbi_image_free(data);
         QuickGame_Destroy(tex);
@@ -83,7 +87,7 @@ QGTexture_t QuickGame_Texture_Load(const char* filename, const unsigned int flip
 
     stbi_image_free(data);
 
-    unsigned int* swizzled_pixels = NULL;
+    u32* swizzled_pixels = NULL;
     size_t size = tex->pHeight * tex->pWidth * 4;
     if(vram){
         swizzled_pixels = getStaticVramTexture(tex->pWidth, tex->pHeight, GU_PSM_8888);
@@ -108,6 +112,9 @@ QGTexture_t QuickGame_Texture_Load(const char* filename, const unsigned int flip
 }
 
 void QuickGame_Texture_Destroy(QGTexture_t* texture) {
+    if(!texture || !*texture)
+        return;
+    
     QuickGame_Destroy((*texture)->data);
     QuickGame_Destroy(*texture);
     *texture = NULL;

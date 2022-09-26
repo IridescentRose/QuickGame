@@ -5,6 +5,22 @@
 #include <gu2gl.h>
 #include <pspkernel.h>
 
+
+QGSprite_t QuickGame_Sprite_Create_Contained(float x, float y, float w, float h, QGTexInfo tex_info){
+    QGTexture_t tex = QuickGame_Texture_Load_Alt(tex_info);
+    if(!tex)
+        return NULL;
+    
+    QGSprite_t result = QuickGame_Sprite_Create_Alt(x, y, w, h, tex);
+
+    if(!result)
+        QuickGame_Texture_Destroy(&tex);
+    else
+        result->contained = true;
+
+    return result;
+}
+
 QGSprite_t QuickGame_Sprite_Create_Alt(float x, float y, float w, float h, QGTexture_t texture) {
     QGVector2 position = {x, y};
     QGVector2 size = {w, h};
@@ -84,6 +100,10 @@ void QuickGame_Sprite_Destroy(QGSprite_t* sprite) {
         return;
     
     QuickGame_Graphics_Destroy_Mesh(&(*sprite)->mesh);
+    
+    if((*sprite)->contained)
+        QuickGame_Texture_Destroy(&(*sprite)->texture);
+    
     QuickGame_Destroy((*sprite));
     *sprite = NULL;
 }

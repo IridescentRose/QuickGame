@@ -71,6 +71,12 @@ typedef struct {
 
 typedef QGTexture *QGTexture_t;
 
+typedef struct {
+    const char* filename;
+    bool flip;
+    bool vram;
+} QGTexInfo;
+
 /**
  * @brief Vector2
  */

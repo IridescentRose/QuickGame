@@ -23,7 +23,8 @@ typedef struct {
     i32 layer;
     QGColor color;
     QGTexture_t texture;
-    QGVMesh* mesh;
+    QGVMesh_t mesh;
+    bool contained;
 } QGSprite;
 
 typedef QGSprite *QGSprite_t;
@@ -49,6 +50,18 @@ QGSprite_t QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture
  * @return QGSprite_t Sprite result or NULL if failed
  */
 QGSprite_t QuickGame_Sprite_Create_Alt(float x, float y, float w, float h, QGTexture_t texture);
+
+/**
+ * @brief Creates a sprite and loads a texture. This texture is owned by the sprite and destroyed on sprite destroy.
+ * 
+ * @param x X of sprite
+ * @param y Y of sprite
+ * @param w Width of Sprite
+ * @param h Height of Sprite
+ * @param tex_info Information about the texture to load
+ * @return QGSprite_t Sprite result or NULL if failed
+ */
+QGSprite_t QuickGame_Sprite_Create_Contained(float x, float y, float w, float h, QGTexInfo tex_info);
 
 /**
  * @brief Destroy a sprite and sets it to NULL
