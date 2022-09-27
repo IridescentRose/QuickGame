@@ -13,6 +13,7 @@
 #define _QUICKGAME_INCLUDED_H_
 
 #include <GraphicsContext.h>
+#include <Input.h>
 #include <Sprite.h>
 #include <Texture.h>
 #include <Types.h>

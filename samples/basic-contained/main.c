@@ -7,10 +7,10 @@ int main(int argc, char** argv){
     QGTexInfo tex_info = {.filename = "circle.png", .flip = 0, .vram = 0};
     QGSprite_t sprite = QuickGame_Sprite_Create_Contained(240, 136, 256, 256, tex_info);
 
+    QuickGame_Graphics_Set2D();
+
     while(QuickGame_Running()){
         QuickGame_Graphics_Start_Frame();
-        
-        QuickGame_Graphics_Set2D();
         QuickGame_Graphics_Clear();
 
         QuickGame_Sprite_Draw(sprite);

@@ -63,6 +63,9 @@ i32 QuickGame_Init() {
     // FIXME: Handle Fail Case
     QuickGame_Graphics_Init();
 
+    // Initialize input
+    QuickGame_Input_Init();
+
     return 0;
 }
 

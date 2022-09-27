@@ -5,6 +5,8 @@
         "graphicscontext.h": "c",
         "stddef.h": "c",
         "types.h": "c",
-        "sprite.h": "c"
+        "sprite.h": "c",
+        "input.h": "c",
+        "texture.h": "c"
     }
 }

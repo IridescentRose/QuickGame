@@ -10,6 +10,14 @@ static bool dialogMode;
 
 void QuickGame_Graphics_Init() {
     guglInit(list);
+    
+    QuickGame_Graphics_Start_Frame();
+    glDisable(GL_DEPTH_TEST);
+    glBlendFunc(GU_ADD, GU_SRC_ALPHA, GU_ONE_MINUS_SRC_ALPHA, 0, 0);
+    glEnable(GL_BLEND);
+    glFrontFace(GL_CCW);
+    QuickGame_Graphics_End_Frame(false);
+
     dialogMode = false;
     cam_ptr = NULL;
 }
@@ -122,11 +130,6 @@ void QuickGame_Graphics_Draw_Mesh(QGVMesh_t mesh) {
 }
 
 void QuickGame_Graphics_Set2D() {
-    glDisable(GL_DEPTH_TEST);
-    glBlendFunc(GU_ADD, GU_SRC_ALPHA, GU_ONE_MINUS_SRC_ALPHA, 0, 0);
-    glEnable(GL_BLEND);
-    glFrontFace(GL_CCW);
-
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glOrtho(0.0f, 480.0f, 0.0f, 272.0f, -30.0f, 30.0f);
