@@ -80,6 +80,19 @@ void QuickGame_Graphics_Set2D();
 QGVMesh_t QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, const usize icount);
 
 /**
+ * @brief Sets a camera to track
+ * 
+ * @param camera Camera to track
+ */
+void QuickGame_Graphics_Set_Camera(QGCamera2D* camera);
+
+/**
+ * @brief Stops tracking the previously set camera.
+ * 
+ */
+void QuickGame_Graphics_Unset_Camera();
+
+/**
  * @brief Destroys a Graphics Mesh and sets pointer to NULL.
  * 
  * @param mesh Pointer to Mesh to destroy

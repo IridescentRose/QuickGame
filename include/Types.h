@@ -141,6 +141,11 @@ typedef struct {
     u16* indices;
 } QGVMesh;
 
+typedef struct {
+    QGVector2 position;
+    f32 rotation;
+} QGCamera2D;
+
 typedef QGVMesh *QGVMesh_t;
 
 #endif

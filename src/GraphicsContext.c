@@ -5,12 +5,13 @@
 
 static u32 __attribute__((aligned(16))) list[262144];
 static QGColor clearColor;
-
+static QGCamera2D* cam_ptr;
 static bool dialogMode;
 
 void QuickGame_Graphics_Init() {
     guglInit(list);
     dialogMode = false;
+    cam_ptr = NULL;
 }
 
 void QuickGame_Graphics_Terminate() {
@@ -23,6 +24,24 @@ void QuickGame_Graphics_Set_Dialog_Mode(bool mode) {
 
 void QuickGame_Graphics_Start_Frame() {
     guglStartFrame(list, dialogMode);
+
+    if(cam_ptr) {
+        // Set to location
+        glMatrixMode(GL_VIEW);
+        glLoadIdentity();
+
+        ScePspFVector3 temp = {
+            .x = cam_ptr->position.x,
+            .y = cam_ptr->position.y,
+            .z = 0,
+        };
+
+        gluTranslate(&temp);
+        gluRotateZ(cam_ptr->rotation);
+
+        glMatrixMode(GL_MODEL);
+        glLoadIdentity();
+    }
 }
 
 void QuickGame_Graphics_End_Frame(bool vsync) {
@@ -117,4 +136,13 @@ void QuickGame_Graphics_Set2D() {
 
     glMatrixMode(GL_MODEL);
     glLoadIdentity();
+}
+
+
+void QuickGame_Graphics_Set_Camera(QGCamera2D* camera) {
+    cam_ptr = camera;
+}
+
+void QuickGame_Graphics_Unset_Camera() {
+    cam_ptr = NULL;
 }
