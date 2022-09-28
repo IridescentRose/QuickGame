@@ -344,6 +344,14 @@ class Sprite {
         QuickGame_Sprite_Draw(ir);
     }
 
+    inline auto intersects(Sprite& other) noexcept -> bool {
+        return QuickGame_Sprite_Intersects(ir, other.ir);
+    }
+
+    inline auto intersection(Sprite& other) noexcept -> int {
+        return QuickGame_Sprite_Intersect_Direction(ir, other.ir);
+    }
+
     private:
     QGSprite_t ir;
 };
@@ -376,7 +384,7 @@ inline auto update() noexcept -> void {
  * @return false Button is not pressed
  */
 inline auto button_pressed(u32 buttons) noexcept -> bool {
-    QuickGame_Button_Pressed(buttons);
+    return QuickGame_Button_Pressed(buttons);
 }
 
 /**
@@ -387,7 +395,7 @@ inline auto button_pressed(u32 buttons) noexcept -> bool {
  * @return false Button is not held
  */
 inline auto button_held(u32 buttons) noexcept -> bool {
-    QuickGame_Button_Held(buttons);
+    return QuickGame_Button_Held(buttons);
 }
 
 /**
@@ -398,7 +406,7 @@ inline auto button_held(u32 buttons) noexcept -> bool {
  * @return false 
  */
 inline auto button_released(u32 buttons) noexcept -> bool {
-    QuickGame_Button_Released(buttons);
+    return QuickGame_Button_Released(buttons);
 }
 
 }

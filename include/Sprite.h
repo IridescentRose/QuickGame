@@ -77,6 +77,32 @@ void QuickGame_Sprite_Destroy(QGSprite_t* sprite);
  */
 void QuickGame_Sprite_Draw(QGSprite_t sprite);
 
+enum QGDirection{
+    QG_DIR_UP = 1,
+    QG_DIR_DOWN = 2,
+    QG_DIR_LEFT = 3,
+    QG_DIR_RIGHT = 4,
+};
+
+/**
+ * @brief Intersection Detection
+ * 
+ * @param a Sprite A
+ * @param b Sprite B
+ * @return true Sprites intersect
+ * @return false Sprites do not intersect
+ */
+bool QuickGame_Sprite_Intersects(QGSprite_t a, QGSprite_t b);
+
+/**
+ * @brief Intersection Direction
+ * 
+ * @param a Sprite A
+ * @param b Sprite B
+ * @return uint8_t Direction
+ */
+uint8_t QuickGame_Sprite_Intersect_Direction(QGSprite_t a, QGSprite_t b);
+
 #if __cplusplus
 };
 #endif

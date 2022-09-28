@@ -136,3 +136,53 @@ void QuickGame_Sprite_Draw(QGSprite_t sprite) {
     QuickGame_Texture_Unbind(sprite->texture);
 
 }
+
+
+bool QuickGame_Sprite_Intersects(QGSprite_t a, QGSprite_t b) {
+    if(!a || !b)
+        return false;
+    
+    float aMinX = a->transform.position.x;
+    float aMinY = a->transform.position.y;
+    float aMaxX = a->transform.position.x + a->transform.scale.x;
+    float aMaxY = a->transform.position.y + a->transform.scale.y;
+
+    float bMinX = b->transform.position.x;
+    float bMinY = b->transform.position.y;
+    float bMaxX = b->transform.position.x + b->transform.scale.x;
+    float bMaxY = b->transform.position.y + b->transform.scale.y;
+
+    return (
+        aMinX <= bMaxX &&
+        aMaxX >= bMinX &&
+        aMinY <= bMaxY &&
+        aMaxY >= bMinY
+    );
+}
+
+u8 QuickGame_Sprite_Intersect_Direction(QGSprite_t a, QGSprite_t b) {
+    float a_bottom = a->transform.position.y + a->transform.scale.y;
+    float b_bottom = b->transform.position.y + b->transform.scale.y;
+    float a_right = a->transform.position.x + a->transform.scale.x;
+    float b_right = b->transform.position.x + b->transform.scale.x;
+
+    float b_collision = b_bottom - a->transform.position.y;
+    float t_collision = a_bottom - b->transform.position.y;
+    float l_collision = a_right - b->transform.position.x;
+    float r_collision = b_right - a->transform.position.x;
+
+    if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision ) {                           
+        return QG_DIR_UP;
+    }
+    if (b_collision < t_collision && b_collision < l_collision && b_collision < r_collision) {
+        return QG_DIR_DOWN;
+    }
+    if (l_collision < r_collision && l_collision < t_collision && l_collision < b_collision) {
+        return QG_DIR_LEFT;
+    }
+    if (r_collision < l_collision && r_collision < t_collision && r_collision < b_collision ) {
+        return QG_DIR_RIGHT;
+    }
+
+    return 0;
+}
