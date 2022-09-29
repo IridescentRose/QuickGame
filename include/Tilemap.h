@@ -1,5 +1,5 @@
 /**
- * @file Texture.h
+ * @file Tilemap.h
  * @author Nathan Bourgeois (iridescentrosesfall@gmail.com)
  * @brief 
  * @version 1.0

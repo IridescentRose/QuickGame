@@ -189,4 +189,10 @@ typedef struct {
 
 typedef QGTilemap *QGTilemap_t;
 
+typedef struct {
+    f64 total;
+    u64 last;
+    u32 resolution;
+} QGTimer;
+
 #endif

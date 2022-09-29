@@ -1,3 +1,13 @@
+/**
+ * @file QuickGame.hpp
+ * @author Nathan Bourgeois (iridescentrosesfall@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2022-09-29
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <QuickGame.h>
 #include <stdexcept>
 #include <vector>
@@ -401,6 +411,31 @@ class Sprite {
 };
 
 } // Graphics
+
+class Timer {
+    public:
+    Timer() {
+        QuickGame_Timer_Start(&t);
+    }
+    virtual ~Timer() {
+        reset();
+    }
+
+    inline auto deltaTime() noexcept -> double {
+        return QuickGame_Timer_Delta(&t);
+    }
+
+    inline auto elapsed() noexcept -> double {
+        return QuickGame_Timer_Elapsed(&t);
+    }
+
+    inline auto reset() noexcept -> void {
+        QuickGame_Timer_Reset(&t);
+    }
+
+    private:
+    QGTimer t;
+}
 
 namespace Input {
 
