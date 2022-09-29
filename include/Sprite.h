@@ -25,6 +25,7 @@ typedef struct {
     QGTexture_t texture;
     QGVMesh_t mesh;
     bool contained;
+    QGVector2 aabb_size;
 } QGSprite;
 
 typedef QGSprite *QGSprite_t;

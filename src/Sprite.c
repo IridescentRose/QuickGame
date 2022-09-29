@@ -41,6 +41,7 @@ QGSprite_t QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture
 
     sprite->transform.position = position;
     sprite->transform.scale = size;
+    sprite->aabb_size = size;
     sprite->texture = texture;
 
     sprite->mesh = QuickGame_Graphics_Create_Mesh(QG_VERTEX_TYPE_TEXTURED, 4, 6);
@@ -142,15 +143,15 @@ bool QuickGame_Sprite_Intersects(QGSprite_t a, QGSprite_t b) {
     if(!a || !b)
         return false;
     
-    float aMinX = a->transform.position.x - a->transform.scale.x / 2.0f;
-    float aMinY = a->transform.position.y - a->transform.scale.y / 2.0f;
-    float aMaxX = a->transform.position.x + a->transform.scale.x / 2.0f;
-    float aMaxY = a->transform.position.y + a->transform.scale.y / 2.0f;
+    float aMinX = a->transform.position.x - a->aabb_size.x / 2.0f;
+    float aMinY = a->transform.position.y - a->aabb_size.y / 2.0f;
+    float aMaxX = a->transform.position.x + a->aabb_size.x / 2.0f;
+    float aMaxY = a->transform.position.y + a->aabb_size.y / 2.0f;
 
-    float bMinX = b->transform.position.x - b->transform.scale.x / 2.0f;
-    float bMinY = b->transform.position.y - b->transform.scale.y / 2.0f;
-    float bMaxX = b->transform.position.x + b->transform.scale.x / 2.0f;
-    float bMaxY = b->transform.position.y + b->transform.scale.y / 2.0f;
+    float bMinX = b->transform.position.x - b->aabb_size.x / 2.0f;
+    float bMinY = b->transform.position.y - b->aabb_size.y / 2.0f;
+    float bMaxX = b->transform.position.x + b->aabb_size.x / 2.0f;
+    float bMaxY = b->transform.position.y + b->aabb_size.y / 2.0f;
 
     return (
         aMinX <= bMaxX &&
@@ -161,15 +162,15 @@ bool QuickGame_Sprite_Intersects(QGSprite_t a, QGSprite_t b) {
 }
 
 u8 QuickGame_Sprite_Intersect_Direction(QGSprite_t a, QGSprite_t b) {
-    float a_bottom = a->transform.position.y + a->transform.scale.y / 2.0f;
-    float b_bottom = b->transform.position.y + b->transform.scale.y / 2.0f;
-    float a_right = a->transform.position.x + a->transform.scale.x / 2.0f;
-    float b_right = b->transform.position.x + b->transform.scale.x / 2.0f;
+    float a_bottom = a->transform.position.y + a->aabb_size.y / 2.0f;
+    float b_bottom = b->transform.position.y + b->aabb_size.y / 2.0f;
+    float a_right = a->transform.position.x + a->aabb_size.x / 2.0f;
+    float b_right = b->transform.position.x + b->aabb_size.x / 2.0f;
 
-    float b_collision = b_bottom - (a->transform.position.y - a->transform.scale.y / 2.0f);
-    float t_collision = a_bottom - (b->transform.position.y - b->transform.scale.y / 2.0f);
-    float l_collision = a_right - (b->transform.position.x - b->transform.scale.x / 2.0f );
-    float r_collision = b_right - (a->transform.position.x - a->transform.scale.x / 2.0f );
+    float b_collision = b_bottom - (a->transform.position.y - a->aabb_size.y / 2.0f);
+    float t_collision = a_bottom - (b->transform.position.y - b->aabb_size.y / 2.0f);
+    float l_collision = a_right - (b->transform.position.x - b->aabb_size.x / 2.0f );
+    float r_collision = b_right - (a->transform.position.x - a->aabb_size.x / 2.0f );
 
     if (t_collision < b_collision && t_collision < l_collision && t_collision < r_collision ) {                           
         return QG_DIR_UP;
