@@ -75,14 +75,15 @@ QGVMesh_t QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, cons
     mesh->count = icount;
     if(type == QG_VERTEX_TYPE_TEXTURED) {
         mesh->data = QuickGame_Allocate_Aligned(16, sizeof(QGTexturedVertex) * vcount);
-        mesh->indices = (u16*)QuickGame_Allocate_Aligned(16, sizeof(u16) * icount);
     } else if (type == QG_VERTEX_TYPE_COLORED) {
         mesh->data = QuickGame_Allocate_Aligned(16, sizeof(QGColoredVertex) * vcount);
-        mesh->indices = (u16*)QuickGame_Allocate_Aligned(16, sizeof(u16) * icount);
+    } else if (type == QG_VERTEX_TYPE_FULL) {
+        mesh->data = QuickGame_Allocate_Aligned(16, sizeof(QGFullVertex) * vcount);
     } else {
         QuickGame_Destroy(mesh);
         return NULL;
     }
+    mesh->indices = (u16*)QuickGame_Allocate_Aligned(16, sizeof(u16) * icount);
 
     if(!mesh->data) {
         QuickGame_Destroy(mesh);
@@ -123,6 +124,9 @@ void QuickGame_Graphics_Draw_Mesh(QGVMesh_t mesh) {
         glDisable(GL_TEXTURE_2D);
         vtype |= GL_COLOR_8888;
         QuickGame_Texture_Unbind();
+    } else if (mesh->type == QG_VERTEX_TYPE_FULL) {
+        glEnable(GL_TEXTURE_2D);
+        vtype |= GL_TEXTURE_32BITF | GL_COLOR_8888;
     } else {
         return;
     }

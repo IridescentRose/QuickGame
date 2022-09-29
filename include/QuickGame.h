@@ -16,6 +16,7 @@
 #include <Input.h>
 #include <Sprite.h>
 #include <Texture.h>
+#include <Tilemap.h>
 #include <Types.h>
 
 #if __cplusplus

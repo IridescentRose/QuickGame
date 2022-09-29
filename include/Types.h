@@ -103,13 +103,23 @@ typedef struct {
 } QGTransform2D;
 
 /**
- * @brief Vertex with Texture, Color, and Position
+ * @brief Vertex with Texture, and Position
  * 
  */
 typedef struct {
     float u, v;
     float x, y, z;
 } QGTexturedVertex;
+
+/**
+ * @brief Vertex with Texture, Color, and Position
+ * 
+ */
+typedef struct {
+    float u, v;
+    QGColor color;
+    float x, y, z;
+} QGFullVertex;
 
 /**
  * @brief Vertex with Color and Position
@@ -126,7 +136,8 @@ typedef struct {
  */
 typedef enum {
     QG_VERTEX_TYPE_TEXTURED = 0x00,
-    QG_VERTEX_TYPE_COLORED = 0x01
+    QG_VERTEX_TYPE_COLORED = 0x01,
+    QG_VERTEX_TYPE_FULL = 0x02
 } QGVType;
 
 /**
@@ -141,11 +152,41 @@ typedef struct {
     u16* indices;
 } QGVMesh;
 
+typedef QGVMesh *QGVMesh_t;
+
+/**
+ * @brief Camera data structure
+ * 
+ */
 typedef struct {
     QGVector2 position;
     f32 rotation;
 } QGCamera2D;
 
-typedef QGVMesh *QGVMesh_t;
+/**
+ * @brief Texture Atlas information
+ * 
+ */
+typedef struct {
+    f32 x, y;
+} QGTextureAtlas;
+
+
+typedef struct {
+    i32 x, y;
+    usize atlas_idx;
+    QGColor color;
+} QGTile;
+
+typedef struct {
+    QGTransform2D transform;
+    QGTextureAtlas atlas;
+    QGTexture_t texture;
+    QGVector2 size;
+    QGTile* tile_array;
+    QGVMesh_t mesh;
+} QGTilemap;
+
+typedef QGTilemap *QGTilemap_t;
 
 #endif

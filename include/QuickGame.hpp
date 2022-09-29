@@ -205,8 +205,20 @@ class Mesh {
     inline auto add_data(const void* verts, size_t vcount, const u16* indices, size_t icount) -> void {
         if(verts == nullptr || indices == nullptr)
             throw std::runtime_error("Mesh data null!");
-        
-        auto size = (ir->type == QG_VERTEX_TYPE_TEXTURED) ? sizeof(QGTexturedVertex) : sizeof(QGColoredVertex);
+
+        int size = 0;
+        switch(ir->type) {
+            case QG_VERTEX_TYPE_COLORED:
+                size = sizeof(QGColoredVertex);
+                break;
+            case QG_VERTEX_TYPE_FULL:
+                size = sizeof(QGFullVertex);
+                break;
+            case QG_VERTEX_TYPE_TEXTURED:
+                size = sizeof(QGTexturedVertex);
+                break;
+        }         
+
         memcpy(ir->data, verts, vcount * size);
         memcpy(ir->indices, indices, icount * sizeof(u16));
     }
@@ -284,6 +296,38 @@ class Texture {
 
     protected:
     QGTexture_t ir;
+};
+
+class Tilemap {
+    public:
+
+    /**
+     * @brief Create a tilemap
+     * 
+     * @param texture_atlas Texture Atlas size 
+     * @param texture Texture to use
+     * @param size Size of tile map
+     * @return QGTilemap_t Created tilemap or NULL on failure
+     */
+    Tilemap(QGTextureAtlas texture_atlas, QGTexture_t texture, QGVector2 size) {
+        ir = QuickGame_Tilemap_Create(texture_atlas, texture, size);
+    }
+    ~Tilemap() {
+        QuickGame_Tilemap_Destroy(&ir);
+    }
+    
+    inline auto add_tile(const QGTile&& tile) noexcept -> void {
+        QuickGame_Tilemap_Add_Tile(ir, tile);
+    }
+    inline auto build() noexcept -> void {
+        QuickGame_Tilemap_Build(ir);
+    }
+    inline auto draw() noexcept -> void {
+        QuickGame_Tilemap_Draw(ir);
+    }
+
+    protected:
+    QGTilemap_t ir;
 };
 
 class Sprite {
