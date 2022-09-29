@@ -435,7 +435,7 @@ class Timer {
 
     private:
     QGTimer t;
-}
+};
 
 namespace Input {
 
