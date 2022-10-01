@@ -1,4 +1,5 @@
 #include <Timer.h>
+#include <time.h>
 #include <psprtc.h>
 
 /**
