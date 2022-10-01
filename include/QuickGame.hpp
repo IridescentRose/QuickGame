@@ -437,6 +437,101 @@ class Timer {
     QGTimer t;
 };
 
+namespace Audio {
+/**
+ * @brief Initializes the audio subsystem
+ * 
+ */
+inline auto init() noexcept -> void{
+    QuickGame_Audio_Init();
+}
+
+/**
+ * @brief Terminates the audio subsystem
+ * 
+ */
+inline auto terminate() noexcept -> void{
+    QuickGame_Audio_Terminate();
+}
+
+class Clip{
+    public:
+
+    /**
+     * @brief Loads an audio clip
+     * 
+     * @param filename File name
+     * @param looping Whether or not the audio is looping
+     * @param streaming Whether or not we should stream the audio from disk
+     * @return QGAudioClip_t Result audio clip or NULL on failure
+     */
+    Clip(const char* filename, bool looping, bool streaming) {
+        ir = QuickGame_Audio_Load(filename, looping, streaming);
+    }
+
+    ~Clip() {
+        QuickGame_Audio_Destroy(&ir);
+    }
+    /**
+     * @brief Sets the clip's looping mode
+     * 
+     * @param looping Whether or not the clip should play in a loop
+     */
+    inline auto set_looping(bool looping) noexcept -> void {
+        QuickGame_Audio_Set_Looping(ir, looping);
+    }
+
+    /**
+     * @brief Sets the clip's volume
+     * 
+     * @param volume Volume of the clip [0, 1]
+     */
+    inline auto set_volume(f32 volume) noexcept -> void {
+        QuickGame_Audio_Set_Volume(ir, volume);
+    }
+
+    /**
+     * @brief Sets the clips' panning
+     * 
+     * @param pan Panning from [-1, 1]
+     */
+    inline auto set_pan(f32 pan) noexcept -> void {
+        QuickGame_Audio_Set_Pan(ir, pan);
+    }
+
+    /**
+     * @brief Plays an audio clip on a channel. There are channels 0-8
+     * 
+     * @param channel Clip channel
+     */
+    inline auto play(u8 channel) noexcept -> void {
+        QuickGame_Audio_Play(ir, channel);
+    }
+
+    /**
+     * @brief Pauses an audio clip (this toggles if you call pause on a paused clip)
+     * 
+     * @param clip Clip to pause
+     */
+    inline auto pause() noexcept -> void {
+        QuickGame_Audio_Pause(ir);
+    }
+
+    /**
+     * @brief Stops an audio clip
+     * 
+     */
+    inline auto stop() noexcept -> void {
+        QuickGame_Audio_Stop(ir);
+    }
+
+    private:
+    QGAudioClip_t ir;
+
+};
+
+}
+
 namespace Input {
 
 /**

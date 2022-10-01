@@ -66,10 +66,14 @@ i32 QuickGame_Init() {
     // Initialize input
     QuickGame_Input_Init();
 
+    // Init Audio
+    QuickGame_Audio_Init();
+
     return 0;
 }
 
 void QuickGame_Terminate() {
+    QuickGame_Audio_Terminate();
     QuickGame_Graphics_Terminate();
     sceKernelExitGame();
 }

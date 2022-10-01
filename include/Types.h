@@ -195,4 +195,10 @@ typedef struct {
     u32 resolution;
 } QGTimer;
 
+typedef struct {
+    void* data;
+} QGAudioClip;
+
+typedef QGAudioClip *QGAudioClip_t;
+
 #endif

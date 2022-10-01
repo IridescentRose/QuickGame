@@ -12,6 +12,7 @@
 #ifndef _QUICKGAME_INCLUDED_H_
 #define _QUICKGAME_INCLUDED_H_
 
+#include <Audio.h>
 #include <GraphicsContext.h>
 #include <Input.h>
 #include <Sprite.h>

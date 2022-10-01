@@ -8,6 +8,7 @@
         "sprite.h": "c",
         "input.h": "c",
         "texture.h": "c",
-        "pspkernel.h": "c"
+        "pspkernel.h": "c",
+        "audio.h": "c"
     }
 }
