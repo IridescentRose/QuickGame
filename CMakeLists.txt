@@ -15,5 +15,5 @@ target_include_directories(QuickGame PUBLIC gu2gl/)
 target_include_directories(QuickGame PUBLIC stbi/)
 target_include_directories(QuickGame PUBLIC include/)
 
-target_compile_options(QuickGame PRIVATE -Wall -Werror)
+target_compile_options(QuickGame PRIVATE -Wall -Werror -Wno-unused)
 
