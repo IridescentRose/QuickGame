@@ -79,6 +79,8 @@ QGVMesh_t QuickGame_Graphics_Create_Mesh(const u8 type, const usize vcount, cons
         mesh->data = QuickGame_Allocate_Aligned(16, sizeof(QGColoredVertex) * vcount);
     } else if (type == QG_VERTEX_TYPE_FULL) {
         mesh->data = QuickGame_Allocate_Aligned(16, sizeof(QGFullVertex) * vcount);
+    } else if (type == QG_VERTEX_TYPE_SIMPLE) {
+        mesh->data = QuickGame_Allocate_Aligned(16, sizeof(QGSimpleVertex) * vcount);
     } else {
         QuickGame_Destroy(mesh);
         return NULL;
@@ -127,6 +129,8 @@ void QuickGame_Graphics_Draw_Mesh(QGVMesh_t mesh) {
     } else if (mesh->type == QG_VERTEX_TYPE_FULL) {
         glEnable(GL_TEXTURE_2D);
         vtype |= GL_TEXTURE_32BITF | GL_COLOR_8888;
+    } else if (mesh->type == QG_VERTEX_TYPE_SIMPLE) {
+        glDisable(GL_TEXTURE_2D);  
     } else {
         return;
     }

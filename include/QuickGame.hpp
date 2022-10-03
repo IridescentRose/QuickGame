@@ -227,6 +227,9 @@ class Mesh {
             case QG_VERTEX_TYPE_TEXTURED:
                 size = sizeof(QGTexturedVertex);
                 break;
+            case QG_VERTEX_TYPE_SIMPLE:
+                size = sizeof(QGSimpleVertex);
+                break;
         }         
 
         memcpy(ir->data, verts, vcount * size);

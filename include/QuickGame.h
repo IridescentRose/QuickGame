@@ -15,6 +15,7 @@
 #include <Audio.h>
 #include <GraphicsContext.h>
 #include <Input.h>
+#include <Primitive.h>
 #include <Sprite.h>
 #include <Texture.h>
 #include <Tilemap.h>

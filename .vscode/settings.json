@@ -9,6 +9,8 @@
         "input.h": "c",
         "texture.h": "c",
         "pspkernel.h": "c",
-        "audio.h": "c"
+        "audio.h": "c",
+        "tilemap.h": "c",
+        "timer.h": "c"
     }
 }

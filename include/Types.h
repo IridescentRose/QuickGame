@@ -131,13 +131,22 @@ typedef struct {
 } QGColoredVertex;
 
 /**
+ * @brief Simplest vertex
+ * 
+ */
+typedef struct {
+    float x, y, z;
+} QGSimpleVertex;
+
+/**
  * @brief Vertex types
  * 
  */
 typedef enum {
     QG_VERTEX_TYPE_TEXTURED = 0x00,
     QG_VERTEX_TYPE_COLORED = 0x01,
-    QG_VERTEX_TYPE_FULL = 0x02
+    QG_VERTEX_TYPE_FULL = 0x02,
+    QG_VERTEX_TYPE_SIMPLE = 0x03
 } QGVType;
 
 /**

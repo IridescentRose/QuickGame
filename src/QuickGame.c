@@ -69,6 +69,10 @@ i32 QuickGame_Init() {
     // Init Audio
     QuickGame_Audio_Init();
 
+    if(QuickGame_Primitive_Init() < 0){
+        return -1;
+    }
+
     return 0;
 }
 
