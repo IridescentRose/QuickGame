@@ -535,6 +535,45 @@ class Clip{
 
 }
 
+namespace Primitive {
+    /**
+ * @brief Initialize Primitive Drawings
+ * 
+ * returns int < 0 on failure.
+ */
+int init();
+
+/**
+ * @brief Terminate Primitives
+ * 
+ */
+void terminate();
+
+/**
+ * @brief Draw a rectangle with a given transform and color
+ * 
+ * @param transform Position, Rotation, Size
+ * @param color Color to draw with
+ */
+void draw_rectangle(QGTransform2D transform, QGColor color);
+
+/**
+ * @brief Draw a triangle with a given transform and color
+ * 
+ * @param transform Position, Rotation, Size
+ * @param color Color to draw with
+ */
+void draw_triangle(QGTransform2D transform, QGColor color);
+
+/**
+ * @brief Draw a circle with a given transform and color
+ * 
+ * @param transform Position, Rotation, Size
+ * @param color Color to draw with
+ */
+void draw_circle(QGTransform2D transform, QGColor color);
+}
+
 namespace Input {
 
 /**

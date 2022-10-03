@@ -11,6 +11,9 @@
         "pspkernel.h": "c",
         "audio.h": "c",
         "tilemap.h": "c",
-        "timer.h": "c"
+        "timer.h": "c",
+        "lualib.h": "c",
+        "lauxlib.h": "c",
+        "lua.h": "c"
     }
 }
