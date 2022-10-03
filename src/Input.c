@@ -31,3 +31,19 @@ bool QuickGame_Button_Released(u32 buttons) {
     bool last = (oldData.Buttons & buttons) == buttons;
     return !current && last; // Currently not pressed, and pressed last time
 }
+
+f32 QuickGame_Analog_X() {
+    float v = ((float)(padData.Lx - 127)) / 255.0f;
+    v -= 0.5f;
+    v *= 2.0f;
+
+    return v;
+}
+
+f32 QuickGame_Analog_Y() {
+    float v = ((float)(padData.Ly - 127)) / 255.0f;
+    v -= 0.5f;
+    v *= 2.0f;
+
+    return v;
+}

@@ -625,6 +625,25 @@ inline auto button_released(u32 buttons) noexcept -> bool {
     return QuickGame_Button_Released(buttons);
 }
 
+
+/**
+ * @brief Gets the current analog X position, scaled to [-1, 1]
+ * 
+ * @return f32 X position
+ */
+inline auto analog_x() noexcept -> f32 {
+    return QuickGame_Analog_X();
+}
+
+/**
+ * @brief Gets the current analog Y position, scaled to [-1, 1]
+ * 
+ * @return f32 Y position
+ */
+inline auto analog_y() noexcept -> f32 {
+    return QuickGame_Analog_Y();
+}
+
 }
 
 } // QuickGame

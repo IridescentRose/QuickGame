@@ -19,7 +19,7 @@ target_include_directories(QuickGame PUBLIC include/)
 target_compile_options(QuickGame PRIVATE -Wall -Werror -Wno-unused)
 
 
-add_executable(interpreter ${INC_FILES} interpreter/main.c)
+add_executable(interpreter ${INC_FILES} interpreter/main.c interpreter/graphics.c interpreter/input.c)
 
 target_link_libraries(interpreter PUBLIC QuickGame pspdebug pspgum pspgu pspge psputility pspdisplay pspctrl pspnet pspnet_apctl psppower pspaudio STBI lua)
 target_include_directories(interpreter PUBLIC gu2gl/)

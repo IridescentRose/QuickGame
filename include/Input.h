@@ -58,6 +58,20 @@ bool QuickGame_Button_Held(u32 buttons);
  */
 bool QuickGame_Button_Released(u32 buttons);
 
+/**
+ * @brief Gets the current analog X position, scaled to [-1, 1]
+ * 
+ * @return f32 X position
+ */
+f32 QuickGame_Analog_X();
+
+/**
+ * @brief Gets the current analog Y position, scaled to [-1, 1]
+ * 
+ * @return f32 Y position
+ */
+f32 QuickGame_Analog_Y();
+
 #if __cplusplus
 };
 #endif
