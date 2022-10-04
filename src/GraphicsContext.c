@@ -7,6 +7,7 @@ static u32 __attribute__((aligned(16))) list[262144];
 static QGColor clearColor;
 static QGCamera2D* cam_ptr;
 static bool dialogMode;
+static bool wireframeMode;
 
 void QuickGame_Graphics_Init() {
     guglInit(list);
@@ -20,6 +21,7 @@ void QuickGame_Graphics_Init() {
 
     dialogMode = false;
     cam_ptr = NULL;
+    wireframeMode = false;
 }
 
 void QuickGame_Graphics_Terminate() {
@@ -28,6 +30,10 @@ void QuickGame_Graphics_Terminate() {
 
 void QuickGame_Graphics_Set_Dialog_Mode(bool mode) {
     dialogMode = mode;
+}
+
+void QuickGame_Graphics_Set_Wireframe_Mode(bool mode) {
+    wireframeMode = mode;
 }
 
 void QuickGame_Graphics_Start_Frame() {
@@ -39,8 +45,8 @@ void QuickGame_Graphics_Start_Frame() {
         glLoadIdentity();
 
         ScePspFVector3 temp = {
-            .x = cam_ptr->position.x,
-            .y = cam_ptr->position.y,
+            .x = cam_ptr->position.x - 240,
+            .y = cam_ptr->position.y - 136,
             .z = 0,
         };
 
@@ -134,7 +140,12 @@ void QuickGame_Graphics_Draw_Mesh(QGVMesh_t mesh) {
     } else {
         return;
     }
-    glDrawElements(GL_TRIANGLES, vtype, mesh->count, mesh->indices, mesh->data);
+
+    int mode = GL_TRIANGLES;
+    if(wireframeMode)
+        mode = GL_LINE_STRIP;
+
+    glDrawElements(mode, vtype, mesh->count, mesh->indices, mesh->data);
 }
 
 void QuickGame_Graphics_Set2D() {

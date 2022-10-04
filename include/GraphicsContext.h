@@ -38,6 +38,13 @@ void QuickGame_Graphics_Terminate();
 void QuickGame_Graphics_Set_Dialog_Mode(bool mode);
 
 /**
+ * @brief Sets wireframe mode
+ * 
+ * @param mode Draw in wireframe mode?
+ */
+void QuickGame_Graphics_Set_Wireframe_Mode(bool mode);
+
+/**
  * @brief Starts a new frame
  * 
  */

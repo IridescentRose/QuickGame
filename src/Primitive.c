@@ -25,7 +25,7 @@ QGSimpleVertex create_simple_vert(float x, float y, float z){
  */
 int QuickGame_Primitive_Init() {
     _quickgame_rect = QuickGame_Graphics_Create_Mesh(QG_VERTEX_TYPE_SIMPLE, 4, 6);
-    _quickgame_tri = QuickGame_Graphics_Create_Mesh(QG_VERTEX_TYPE_SIMPLE, 3, 3);
+    _quickgame_tri = QuickGame_Graphics_Create_Mesh(QG_VERTEX_TYPE_SIMPLE, 3, 4);
     _quickgame_circle = QuickGame_Graphics_Create_Mesh(QG_VERTEX_TYPE_SIMPLE, 22, 63);
 
     if(_quickgame_rect == NULL || _quickgame_tri == NULL || _quickgame_circle == NULL)
@@ -51,6 +51,7 @@ int QuickGame_Primitive_Init() {
     _quickgame_tri->indices[0] = 0;
     _quickgame_tri->indices[1] = 2;
     _quickgame_tri->indices[2] = 1;
+    _quickgame_tri->indices[3] = 0;
 
 
     ((QGSimpleVertex*)_quickgame_circle->data)[0] = create_simple_vert(0.0f, 0.0f, 0.0f);

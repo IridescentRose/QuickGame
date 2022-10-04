@@ -109,6 +109,16 @@ inline auto set_dialog_mode(const bool&& mode) noexcept -> void {
     QuickGame_Graphics_Set_Dialog_Mode(mode);
 }
 
+
+/**
+ * @brief Sets wireframe mode
+ * 
+ * @param mode Draw in wireframe mode?
+ */
+inline auto set_wireframe_mode(const bool&& mode) noexcept -> void {
+    QuickGame_Graphics_Set_Wireframe_Mode(mode);
+}
+
 /**
  * @brief Starts a new frame
  * 

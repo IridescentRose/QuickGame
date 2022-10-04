@@ -11,5 +11,6 @@
 
 void initialize_graphics(lua_State* L);
 void initialize_primitive(lua_State* L);
+void initialize_camera(lua_State* L);
 
 #endif

@@ -65,6 +65,109 @@ void initialize_quickgame(lua_State* L){
     lua_setglobal(L, "QuickGame");
 }
 
+static int lua_qg_timer_create(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 0)
+        return luaL_error(L, "Error: Timer.create() takes 0 arguments.");
+
+    QGTimer* timer = lua_newuserdata(L,sizeof(QGTimer));
+    QuickGame_Timer_Start(timer);
+
+    luaL_getmetatable(L, "Timer");
+    lua_setmetatable(L, -2); 
+
+    return 1;
+}
+
+QGTimer* getQGTimer(lua_State* L){
+    return (QGTimer*)luaL_checkudata(L, 1, "Timer");
+}
+
+static int lua_qg_timer_destroy(lua_State* L) {
+    QGTimer* timer = getQGTimer(L);
+    QuickGame_Destroy(&timer);
+
+    return 0;
+}
+
+static int lua_qg_timer_delta(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Timer:delta() takes 1 argument.");
+
+    QGTimer* timer = getQGTimer(L);
+    f32 delta = QuickGame_Timer_Delta(timer);
+
+    lua_pushnumber(L, delta);
+    return 1;
+}
+
+static int lua_qg_timer_elapsed(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Timer:elapsed() takes 1 argument.");
+
+
+    QGTimer* timer = getQGTimer(L);
+    f32 elapsed = QuickGame_Timer_Elapsed(timer);
+
+    lua_pushnumber(L, elapsed);
+    return 1;
+}
+
+static int lua_qg_timer_reset(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Timer:reset() takes 1 argument.");
+
+
+    QGTimer* timer = getQGTimer(L);
+    QuickGame_Timer_Reset(timer);
+
+    return 0;
+}
+
+static const luaL_Reg timerLib[] = { // Timer methods
+	{"create", lua_qg_timer_create},
+	{"destroy", lua_qg_timer_destroy},
+	{"delta", lua_qg_timer_delta},
+	{"reset", lua_qg_timer_reset},
+	{"elapsed", lua_qg_timer_elapsed},
+	{0,0}
+};
+
+static const luaL_Reg timerMetaLib[] = {
+	{"__gc", lua_qg_timer_destroy},
+	{0,0}
+};
+
+void initialize_timer(lua_State* L) {
+    int lib_id, meta_id;
+
+    // new class = {}
+    lua_createtable(L, 0, 0);
+    lib_id = lua_gettop(L);
+
+    // meta table = {}
+    luaL_newmetatable(L, "Timer");
+    meta_id = lua_gettop(L);
+    luaL_setfuncs(L, timerMetaLib, 0);
+
+    // meta table = methods
+    luaL_newlib(L, timerLib);
+    lua_setfield(L, meta_id, "__index");  
+
+    // meta table.metatable = metatable
+    luaL_newlib(L, timerMetaLib);
+    lua_setfield(L, meta_id, "__metatable");
+
+    // class.metatable = metatable
+    lua_setmetatable(L, lib_id);
+
+    // Timer
+    lua_setglobal(L, "Timer");
+}
+
 /**
  * @brief Initialize Lua
  * 
@@ -80,17 +183,21 @@ void qg_lua_init() {
     //Graphics Lib
     initialize_graphics(L);
 
+    //Camera Object
+    initialize_camera(L);
+    
     //Primitive Lib
     initialize_primitive(L);
 
     //Input Lib
     initialize_input(L);
     
-    //TODO: Timer Object
+    //Timer Object
+    initialize_timer(L);
+
     //TODO: Audio Clip Object
     //TODO: Texture Object
     //TODO: Sprite Object
-    //TODO: Camera Object (&Set)
     //TODO: Tilemap Object
 }
 

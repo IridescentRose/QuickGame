@@ -59,12 +59,34 @@ static int lua_qg_set_dialog_mode(lua_State* L) {
     return 0;
 }
 
+static int lua_qg_set_wireframe_mode(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Graphics.set_wireframe_mode() takes 1 argument.");
+
+    bool b = lua_toboolean(L, 1);
+
+    QuickGame_Graphics_Set_Wireframe_Mode(b);
+
+    return 0;
+}
+
 static int lua_qg_set2D(lua_State* L) {
     int argc = lua_gettop(L);
     if (argc != 0)
         return luaL_error(L, "Error: Graphics.set2D() takes 0 arguments.");
 
     QuickGame_Graphics_Set2D();
+
+    return 0;
+}
+
+static int lua_qg_set_camera(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Graphics.set_camera() takes 1 argument.");
+
+    QuickGame_Graphics_Set_Camera(luaL_checkudata(L, 1, "Camera"));
 
     return 0;
 }
@@ -85,8 +107,9 @@ static const luaL_Reg graphicsLib[] = {
     {"clear", lua_qg_clear},
 	{"end_frame", lua_qg_end_frame},
 	{"set_dialog_mode", lua_qg_set_dialog_mode},
+	{"set_wireframe_mode", lua_qg_set_wireframe_mode},
     {"set2D", lua_qg_set2D},
-    //TODO: {"set_camera", lua_qg_set_camera},
+    {"set_camera", lua_qg_set_camera},
     {"unset_camera", lua_qg_unset_camera},
 	{0, 0}
 };
@@ -238,4 +261,95 @@ void initialize_primitive(lua_State* L) {
 
     luaL_setfuncs(L, primitiveLib, 0);
     lua_setglobal(L, "Primitive");
+}
+
+static int lua_qg_camera_create(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 0)
+        return luaL_error(L, "Error: Camera.create() takes 0 arguments.");
+
+    QGCamera2D* cam = lua_newuserdata(L,sizeof(QGCamera2D));
+    cam->position.x = 0;
+    cam->position.y = 0;
+    cam->rotation = 0.0f;
+
+    luaL_getmetatable(L, "Camera");
+    lua_setmetatable(L, -2); 
+
+    return 1;
+}
+
+QGCamera2D* getQGCamera(lua_State* L){
+    return (QGCamera2D*)luaL_checkudata(L, 1, "Camera");
+}
+
+static int lua_qg_camera_destroy(lua_State* L) {
+    QGCamera2D* camera = getQGCamera(L);
+    QuickGame_Destroy(&camera);
+
+    return 0;
+}
+
+static int lua_qg_camera_set_pos(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 3)
+        return luaL_error(L, "Error: Camera:set_position() takes 3 arguments.");
+
+    QGCamera2D* camera = getQGCamera(L);
+    camera->position.x = luaL_checknumber(L, 2);
+    camera->position.y = luaL_checknumber(L, 3);
+
+    return 0;
+}
+
+static int lua_qg_camera_set_rot(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 2)
+        return luaL_error(L, "Error: Camera:set_rotation() takes 2 arguments.");
+
+    QGCamera2D* camera = getQGCamera(L);
+    camera->rotation = luaL_checknumber(L, 2) / 180.0f * 3.14159f;
+
+    return 0;
+}
+
+
+static const luaL_Reg cameraLib[] = { // Timer methods
+	{"create", lua_qg_camera_create},
+	{"destroy", lua_qg_camera_destroy},
+	{"set_rotation", lua_qg_camera_set_rot},
+	{"set_position", lua_qg_camera_set_pos},
+	{0,0}
+};
+
+static const luaL_Reg cameraMetaLib[] = {
+	{"__gc", lua_qg_camera_destroy},
+	{0,0}
+};
+
+void initialize_camera(lua_State* L){
+    int lib_id, meta_id;
+
+    // new class = {}
+    lua_createtable(L, 0, 0);
+    lib_id = lua_gettop(L);
+
+    // meta table = {}
+    luaL_newmetatable(L, "Camera");
+    meta_id = lua_gettop(L);
+    luaL_setfuncs(L, cameraMetaLib, 0);
+
+    // meta table = methods
+    luaL_newlib(L, cameraLib);
+    lua_setfield(L, meta_id, "__index");  
+
+    // meta table.metatable = metatable
+    luaL_newlib(L, cameraMetaLib);
+    lua_setfield(L, meta_id, "__metatable");
+
+    // class.metatable = metatable
+    lua_setmetatable(L, lib_id);
+
+    // Camera
+    lua_setglobal(L, "Camera");
 }
