@@ -163,83 +163,117 @@ void initialize_graphics(lua_State* L){
     lua_setglobal(L, "Graphics");
 }
 
+QGTransform2D* getQGTransform(lua_State* L){
+    return (QGTransform2D*)luaL_checkudata(L, 1, "Transform");
+}
+QGTransform2D* getQGTransformn(lua_State* L, int n){
+    return (QGTransform2D*)luaL_checkudata(L, n, "Transform");
+}
+
 static int lua_qg_draw_rectangle(lua_State* L) {
     int argc = lua_gettop(L);
-    if (argc != 6)
+    if (argc == 6){
+        float x = luaL_checknumber(L, 1);
+        float y = luaL_checknumber(L, 2);
+        float w = luaL_checknumber(L, 3);
+        float h = luaL_checknumber(L, 4);
+
+        int color = luaL_checkint(L, 5);
+        QGColor col;
+        col.color = color;
+
+        float rotation = luaL_checknumber(L, 6);
+
+        QGTransform2D transform = {
+            .position = {.x = x, .y = y},
+            .scale = {.x = w, .y = h},
+            .rotation = rotation
+        };
+
+        QuickGame_Primitive_Draw_Rectangle(transform, col);
+    } else if(argc == 2) {
+        QGTransform2D transform = *getQGTransformn(L, 1);
+
+        int color = luaL_checkint(L, 2);
+        QGColor col;
+        col.color = color;
+
+        QuickGame_Primitive_Draw_Rectangle(transform, col);
+    } else {
         return luaL_error(L, "Error: Primitive.draw_rectangle(x, y, w, h, color, rotation) takes 6 arguments.");
-
-    float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
-    float w = luaL_checknumber(L, 3);
-    float h = luaL_checknumber(L, 4);
-
-    int color = luaL_checkint(L, 5);
-    QGColor col;
-    col.color = color;
-
-    float rotation = luaL_checknumber(L, 6);
-
-    QGTransform2D transform = {
-        .position = {.x = x, .y = y},
-        .scale = {.x = w, .y = h},
-        .rotation = rotation
-    };
-
-    QuickGame_Primitive_Draw_Rectangle(transform, col);
+    }
 
     return 0;
 }
 
 static int lua_qg_draw_triangle(lua_State* L) {
     int argc = lua_gettop(L);
-    if (argc != 6)
+    if (argc == 6){
+        float x = luaL_checknumber(L, 1);
+        float y = luaL_checknumber(L, 2);
+        float w = luaL_checknumber(L, 3);
+        float h = luaL_checknumber(L, 4);
+
+        int color = luaL_checkint(L, 5);
+        QGColor col;
+        col.color = color;
+
+        float rotation = luaL_checknumber(L, 6);
+
+        QGTransform2D transform = {
+            .position = {.x = x, .y = y},
+            .scale = {.x = w, .y = h},
+            .rotation = rotation
+        };
+
+        QuickGame_Primitive_Draw_Triangle(transform, col);
+    } else if(argc == 2) {
+        QGTransform2D transform = *getQGTransformn(L, 1);
+
+        int color = luaL_checkint(L, 2);
+        QGColor col;
+        col.color = color;
+
+        QuickGame_Primitive_Draw_Triangle(transform, col);
+    } else {
         return luaL_error(L, "Error: Primitive.draw_triangle(x, y, w, h, color, rotation) takes 6 arguments.");
-
-    float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
-    float w = luaL_checknumber(L, 3);
-    float h = luaL_checknumber(L, 4);
-
-    int color = luaL_checkint(L, 5);
-    QGColor col;
-    col.color = color;
-
-    float rotation = luaL_checknumber(L, 6);
-
-    QGTransform2D transform = {
-        .position = {.x = x, .y = y},
-        .scale = {.x = w, .y = h},
-        .rotation = rotation
-    };
-
-    QuickGame_Primitive_Draw_Triangle(transform, col);
+    }
 
     return 0;
 }
 
 static int lua_qg_draw_circle(lua_State* L) {
     int argc = lua_gettop(L);
-    if (argc != 6)
+    if (argc == 6){
+        float x = luaL_checknumber(L, 1);
+        float y = luaL_checknumber(L, 2);
+        float w = luaL_checknumber(L, 3);
+        float h = luaL_checknumber(L, 4);
+
+        int color = luaL_checkint(L, 5);
+        QGColor col;
+        col.color = color;
+
+        float rotation = luaL_checknumber(L, 6);
+
+        QGTransform2D transform = {
+            .position = {.x = x, .y = y},
+            .scale = {.x = w, .y = h},
+            .rotation = rotation
+        };
+
+        QuickGame_Primitive_Draw_Circle(transform, col);
+    } else if(argc == 2) {
+        QGTransform2D transform = *getQGTransformn(L, 1);
+
+        int color = luaL_checkint(L, 2);
+        QGColor col;
+        col.color = color;
+
+        QuickGame_Primitive_Draw_Circle(transform, col);
+    } else {
         return luaL_error(L, "Error: Primitive.draw_circle(x, y, w, h, color, rotation) takes 6 arguments.");
-
-    float x = luaL_checknumber(L, 1);
-    float y = luaL_checknumber(L, 2);
-    float w = luaL_checknumber(L, 3);
-    float h = luaL_checknumber(L, 4);
-
-    int color = luaL_checkint(L, 5);
-    QGColor col;
-    col.color = color;
-
-    float rotation = luaL_checknumber(L, 6);
-
-    QGTransform2D transform = {
-        .position = {.x = x, .y = y},
-        .scale = {.x = w, .y = h},
-        .rotation = rotation
-    };
-
-    QuickGame_Primitive_Draw_Circle(transform, col);
+    }
 
     return 0;
 }
@@ -352,4 +386,120 @@ void initialize_camera(lua_State* L){
 
     // Camera
     lua_setglobal(L, "Camera");
+}
+
+
+static int lua_qg_transform_create(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 0)
+        return luaL_error(L, "Error: Transform.create() takes 0 arguments.");
+
+    QGTransform2D* t = lua_newuserdata(L,sizeof(QGTransform2D));
+    t->position.x = 0;
+    t->position.y = 0;
+    t->rotation = 0.0f;
+    t->scale.x = 0;
+    t->scale.y = 0;
+
+    luaL_getmetatable(L, "Transform");
+    lua_setmetatable(L, -2); 
+
+    return 1;
+}
+
+static int lua_qg_transform_destroy(lua_State* L) {
+    QGTransform2D* t = getQGTransform(L);
+    QuickGame_Destroy(&t);
+
+    return 0;
+}
+
+static int lua_qg_transform_set_position(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 3)
+        return luaL_error(L, "Error: Transform:set_position() takes 3 arguments.");
+
+    QGTransform2D* t = getQGTransform(L);
+    t->position.x = luaL_checknumber(L, 2);
+    t->position.y = luaL_checknumber(L, 3);
+
+    return 0;
+}
+
+static int lua_qg_transform_set_scale(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 3)
+        return luaL_error(L, "Error: Transform:set_scale() takes 3 arguments.");
+
+    QGTransform2D* t = getQGTransform(L);
+    t->scale.x = luaL_checknumber(L, 2);
+    t->scale.y = luaL_checknumber(L, 3);
+
+    return 0;
+}
+
+static int lua_qg_transform_set_rotation(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 2)
+        return luaL_error(L, "Error: Transform:set_rotation() takes 2 arguments.");
+
+    QGTransform2D* t = getQGTransform(L);
+    t->rotation = luaL_checknumber(L, 2) / 180.0f * 3.14159f;
+
+    return 0;
+}
+static int lua_qg_transform_intersects(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 2)
+        return luaL_error(L, "Error: Transform:intersects() takes 2 arguments.");
+
+    QGTransform2D* t1 = getQGTransformn(L, 1);
+    QGTransform2D* t2 = getQGTransformn(L, 2);
+
+    bool b = QuickGame_Intersect_Transform(*t1, *t2);
+
+    lua_pushboolean(L, b);
+    return 1;
+}
+
+static const luaL_Reg transformLib[] = { // Timer methods
+	{"create", lua_qg_transform_create},
+	{"destroy", lua_qg_transform_destroy},
+	{"set_rotation", lua_qg_transform_set_rotation},
+	{"set_position", lua_qg_transform_set_position},
+	{"set_scale", lua_qg_transform_set_scale},
+    {"intersects", lua_qg_transform_intersects},
+	{0,0}
+};
+
+static const luaL_Reg transformMetaLib[] = {
+	{"__gc", lua_qg_transform_destroy},
+	{0,0}
+};
+
+void initialize_transform(lua_State* L){
+    int lib_id, meta_id;
+
+    // new class = {}
+    lua_createtable(L, 0, 0);
+    lib_id = lua_gettop(L);
+
+    // meta table = {}
+    luaL_newmetatable(L, "Transform");
+    meta_id = lua_gettop(L);
+    luaL_setfuncs(L, transformMetaLib, 0);
+
+    // meta table = methods
+    luaL_newlib(L, transformLib);
+    lua_setfield(L, meta_id, "__index");  
+
+    // meta table.metatable = metatable
+    luaL_newlib(L, transformMetaLib);
+    lua_setfield(L, meta_id, "__metatable");
+
+    // class.metatable = metatable
+    lua_setmetatable(L, lib_id);
+
+    // Transform
+    lua_setglobal(L, "Transform");
 }

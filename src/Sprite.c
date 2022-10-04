@@ -161,6 +161,25 @@ bool QuickGame_Sprite_Intersects(QGSprite_t a, QGSprite_t b) {
     );
 }
 
+bool QuickGame_Intersect_Transform(QGTransform2D a, QGTransform2D b) {
+    float aMinX = a.position.x - a.scale.x / 2.0f;
+    float aMinY = a.position.y - a.scale.y / 2.0f;
+    float aMaxX = a.position.x + a.scale.x / 2.0f;
+    float aMaxY = a.position.y + a.scale.y / 2.0f;
+
+    float bMinX = b.position.x - b.scale.x / 2.0f;
+    float bMinY = b.position.y - b.scale.y / 2.0f;
+    float bMaxX = b.position.x + b.scale.x / 2.0f;
+    float bMaxY = b.position.y + b.scale.y / 2.0f;
+
+    return (
+        aMinX <= bMaxX &&
+        aMaxX >= bMinX &&
+        aMinY <= bMaxY &&
+        aMaxY >= bMinY
+    );
+}
+
 u8 QuickGame_Sprite_Intersect_Direction(QGSprite_t a, QGSprite_t b) {
     float a_bottom = a->transform.position.y + a->aabb_size.y / 2.0f;
     float b_bottom = b->transform.position.y + b->aabb_size.y / 2.0f;

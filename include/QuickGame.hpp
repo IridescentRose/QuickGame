@@ -415,6 +415,8 @@ class Sprite {
         return QuickGame_Sprite_Intersects(ir, other.ir);
     }
 
+
+
     inline auto intersection(Sprite& other) noexcept -> int {
         return QuickGame_Sprite_Intersect_Direction(ir, other.ir);
     }
@@ -422,6 +424,19 @@ class Sprite {
     private:
     QGSprite_t ir;
 };
+
+
+/**
+ * @brief Intersection Detection
+ * 
+ * @param a Transform A
+ * @param b Transform B
+ * @return true Transforms intersect
+ * @return false Transforms do not intersect
+ */
+inline auto intersect_transform(QGTransform2D a, QGTransform2D b) noexcept -> bool {
+    return QuickGame_Intersect_Transform(a, b);
+}
 
 } // Graphics
 

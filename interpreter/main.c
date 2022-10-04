@@ -206,6 +206,9 @@ void qg_lua_init() {
     //Sprite Object
     initialize_sprite(L);
     
+    //Transform Object
+    initialize_transform(L);
+    
     //TODO: Tilemap Object
 }
 

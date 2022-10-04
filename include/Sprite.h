@@ -96,6 +96,16 @@ enum QGDirection{
 bool QuickGame_Sprite_Intersects(QGSprite_t a, QGSprite_t b);
 
 /**
+ * @brief Intersection Detection
+ * 
+ * @param a Transform A
+ * @param b Transform B
+ * @return true Transforms intersect
+ * @return false Transforms do not intersect
+ */
+bool QuickGame_Intersect_Transform(QGTransform2D a, QGTransform2D b);
+
+/**
  * @brief Intersection Direction
  * 
  * @param a Sprite A
