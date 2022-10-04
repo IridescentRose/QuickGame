@@ -12,6 +12,7 @@
 #include "graphics.h"
 #include "input.h"
 #include "audio.h"
+#include "sprite.h"
 
 static int lua_print(lua_State* L) {
     pspDebugScreenInit();
@@ -199,8 +200,12 @@ void qg_lua_init() {
     //AudioClip Object
     initialize_audio(L);
 
-    //TODO: Texture Object
-    //TODO: Sprite Object
+    //Texture Object
+    initialize_texture(L);
+
+    //Sprite Object
+    initialize_sprite(L);
+    
     //TODO: Tilemap Object
 }
 
