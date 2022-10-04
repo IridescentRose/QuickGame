@@ -12,7 +12,7 @@ target_link_libraries(audio PUBLIC QuickGame)
 target_include_directories(audio PUBLIC ../../include)
 
 create_pbp_file(
-    TARGET basic
-    TITLE basic
+    TARGET audio
+    TITLE audio
     BUILD_PRX ON
 )

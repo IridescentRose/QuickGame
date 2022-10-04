@@ -11,6 +11,7 @@
 #include <QuickGame.h>
 #include "graphics.h"
 #include "input.h"
+#include "audio.h"
 
 static int lua_print(lua_State* L) {
     pspDebugScreenInit();
@@ -185,7 +186,7 @@ void qg_lua_init() {
 
     //Camera Object
     initialize_camera(L);
-    
+
     //Primitive Lib
     initialize_primitive(L);
 
@@ -195,7 +196,9 @@ void qg_lua_init() {
     //Timer Object
     initialize_timer(L);
 
-    //TODO: Audio Clip Object
+    //AudioClip Object
+    initialize_audio(L);
+
     //TODO: Texture Object
     //TODO: Sprite Object
     //TODO: Tilemap Object
