@@ -39,12 +39,20 @@ void QuickGame_Atlas_Index_Coords(const QGTextureAtlas atlas, f32* buf, const us
 QGTilemap_t QuickGame_Tilemap_Create(QGTextureAtlas texture_atlas, QGTexture_t texture, QGVector2 size);
 
 /**
- * @brief Adds a tile to the map
+ * @brief Test intersection
  * 
- * @param tilemap Tilemap to insert the tile into
- * @param tile Tile to insert
+ * @param tilemap Tilemap to test against
+ * @param transform Transform to test with
  */
-void QuickGame_Tilemap_Add_Tile(QGTilemap_t tilemap, const QGTile tile);
+bool QuickGame_Tilemap_Intersects(QGTilemap_t tilemap, QGTransform2D transform);
+
+/**
+ * @brief Draws a string (font-based)
+ * 
+ * @param tilemap Tilemap to use
+ * @param str String
+ */
+void QuickGame_Tilemap_Draw_String(QGTilemap_t tilemap, const char* str, QGVector2 position);
 
 /**
  * @brief Draws a tilemap to the screen

@@ -2,6 +2,7 @@
 #include <Tilemap.h>
 #include <stddef.h>
 #include <gu2gl.h>
+#include <string.h>
 
 /**
  * @brief Gets texture coordinates from an atlas given a position
@@ -20,16 +21,16 @@ void QuickGame_Atlas_Index_Coords(const QGTextureAtlas atlas, f32* buf, const us
     float h = y + 1.0f / atlas.y;
 
     buf[0] = x;
-    buf[1] = y;
+    buf[1] = h;
 
     buf[2] = w;
-    buf[3] = y;
+    buf[3] = h;
 
     buf[4] = w;
-    buf[5] = h;
+    buf[5] = y;
     
     buf[6] = x;
-    buf[7] = h;
+    buf[7] = y;
 }
 
 /**
@@ -70,23 +71,6 @@ QGTilemap_t QuickGame_Tilemap_Create(QGTextureAtlas texture_atlas, QGTexture_t t
     return tilemap;
 }
 
-/**
- * @brief Adds a tile to the map
- * 
- * @param tilemap Tilemap to insert the tile into
- * @param tile Tile to insert
- */
-void QuickGame_Tilemap_Add_Tile(QGTilemap_t tilemap, const QGTile tile) {
-    if(!tilemap)
-        return;
-    
-    usize idx = tile.x + tile.y * tilemap->size.x;
-    
-    if(idx < tilemap->size.x * tilemap->size.y){
-        tilemap->tile_array[idx] = tile;
-    }
-}
-
 QGFullVertex create_vert(float u, float v, unsigned int color, float x, float y, float z){
     QGFullVertex vert = {
         .u = u,
@@ -98,6 +82,35 @@ QGFullVertex create_vert(float u, float v, unsigned int color, float x, float y,
     };
 
     return vert;
+}
+
+bool QuickGame_Tilemap_Intersects(QGTilemap_t tilemap, QGTransform2D transform){
+    for(int i = 0; i < tilemap->size.x * tilemap->size.y; i++){
+        QGTransform2D a = {
+            .rotation = 0.0f,
+            .scale = tilemap->tile_array->scale,
+            .position = tilemap->tile_array->position
+        };
+
+        if(QuickGame_Intersect_Transform(transform, a))
+            return true;
+    }
+    return false;
+}
+
+void QuickGame_Tilemap_Draw_String(QGTilemap_t tilemap, const char* str, QGVector2 position){
+    int len = strlen(str);
+
+    for(int i = 0; i < len; i++){
+        QGTile tile = {
+            .atlas_idx = str[i],
+            .collide = false,
+            .position = {.x = position.x + i, .y = position.y},
+            .scale = {.x = 16, .y = 16},
+            .color.color = 0xFFFFFFFF
+        };
+        tilemap->tile_array[i] = tile;
+    }
 }
 
 /**
@@ -120,22 +133,22 @@ void QuickGame_Tilemap_Build(QGTilemap_t tilemap) {
         f32 buf[8];
         QuickGame_Atlas_Index_Coords(tilemap->atlas, buf, tile->atlas_idx);
 
-        float tx = (float)x;
-        float ty = (float)y;
-        float tw = x + 1.0f;
-        float th = x + 1.0f;
+        float tx = tile->position.x;
+        float ty = tile->position.y;
+        float tw = tx + tile->scale.x;
+        float th = ty + tile->scale.y;
 
         ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 0] = create_vert(buf[0], buf[1], color, tx, ty, 0.0f);
         ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 1] = create_vert(buf[2], buf[3], color, tw, ty, 0.0f);
         ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 2] = create_vert(buf[4], buf[5], color, tw, th, 0.0f);
         ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 3] = create_vert(buf[6], buf[7], color, tx, th, 0.0f);
 
-        tilemap->mesh->indices[idx * 6 + 0] = (idx * 6) + 0;
-        tilemap->mesh->indices[idx * 6 + 1] = (idx * 6) + 1;
-        tilemap->mesh->indices[idx * 6 + 2] = (idx * 6) + 2;
-        tilemap->mesh->indices[idx * 6 + 3] = (idx * 6) + 2;
-        tilemap->mesh->indices[idx * 6 + 4] = (idx * 6) + 3;
-        tilemap->mesh->indices[idx * 6 + 5] = (idx * 6) + 0;
+        tilemap->mesh->indices[idx * 6 + 0] = (idx * 4) + 0;
+        tilemap->mesh->indices[idx * 6 + 1] = (idx * 4) + 1;
+        tilemap->mesh->indices[idx * 6 + 2] = (idx * 4) + 2;
+        tilemap->mesh->indices[idx * 6 + 3] = (idx * 4) + 2;
+        tilemap->mesh->indices[idx * 6 + 4] = (idx * 4) + 3;
+        tilemap->mesh->indices[idx * 6 + 5] = (idx * 4) + 0;
     }
 }
 

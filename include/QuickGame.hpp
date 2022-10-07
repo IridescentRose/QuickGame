@@ -338,10 +338,15 @@ class Tilemap {
     ~Tilemap() {
         QuickGame_Tilemap_Destroy(&ir);
     }
-    
-    inline auto add_tile(const QGTile&& tile) noexcept -> void {
-        QuickGame_Tilemap_Add_Tile(ir, tile);
+
+    inline auto intersects(QGTransform2D transform) noexcept -> bool {
+        return QuickGame_Tilemap_Intersects(ir, transform);
     }
+
+    inline auto draw_string(std::string str, QGVector2 position) noexcept -> void {
+        return QuickGame_Tilemap_Draw_String(ir, str.c_str(), position);
+    }
+
     inline auto build() noexcept -> void {
         QuickGame_Tilemap_Build(ir);
     }

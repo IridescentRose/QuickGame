@@ -182,9 +182,11 @@ typedef struct {
 
 
 typedef struct {
-    i32 x, y;
+    QGVector2 position;
+    QGVector2 scale;
     usize atlas_idx;
     QGColor color;
+    bool collide;
 } QGTile;
 
 typedef struct {
