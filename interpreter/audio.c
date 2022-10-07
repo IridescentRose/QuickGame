@@ -62,7 +62,7 @@ static int lua_qg_audio_set_loop(lua_State* L) {
         return luaL_error(L, "Error: AudioClip:set_loop() takes 2 arguments.");
 
     QGAudioClip_t clip = *getClip(L);
-    int looping = luaL_checkint(L, 2);
+    int looping = lua_toboolean(L, 2);
     QuickGame_Audio_Set_Looping(clip, looping);
 
     return 0;
