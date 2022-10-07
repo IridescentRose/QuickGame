@@ -12,4 +12,6 @@
 void initialize_sprite(lua_State* L);
 void initialize_texture(lua_State* L);
 
+void initialize_tilemap(lua_State* L);
+
 #endif

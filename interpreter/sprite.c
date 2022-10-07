@@ -276,3 +276,222 @@ void initialize_sprite(lua_State* L) {
     // AudioClip
     lua_setglobal(L, "Sprite");
 }
+
+////////
+static int lua_qg_tilemap_create(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 5)
+        return luaL_error(L, "Error: Tilemap.create() takes 5 arguments.");
+
+    QGTilemap_t* tmap = lua_newuserdata(L,sizeof(QGTilemap_t));
+
+    int x = luaL_checkint(L, 1);
+    int y = luaL_checkint(L, 2);
+    QGTexture_t tex = *getTexn(L,3);
+    int w = luaL_checkint(L, 4);
+    int h = luaL_checkint(L, 5);
+
+    QGVector2 size = {
+        .x = w,
+        .y = h
+    };
+
+    QGTextureAtlas atlas = {
+        .x = x,
+        .y = y
+    };
+
+    *tmap = QuickGame_Tilemap_Create(atlas, tex, size);
+
+    luaL_getmetatable(L, "Tilemap");
+    lua_setmetatable(L, -2); 
+
+    return 1;
+}
+
+QGTilemap_t* getTilemap(lua_State* L){
+    return (QGTilemap_t*)luaL_checkudata(L, 1, "Tilemap");
+}
+
+static int lua_qg_tilemap_destroy(lua_State* L) {
+    QGTilemap_t* tilemap = getTilemap(L);
+    QuickGame_Tilemap_Destroy(tilemap);
+
+    return 0;
+}
+
+static int lua_qg_tilemap_draw(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Tilemap:draw() takes 1 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+
+    QuickGame_Tilemap_Draw(tilemap);
+
+    return 0;
+}
+
+static int lua_qg_tilemap_build(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 1)
+        return luaL_error(L, "Error: Tilemap:build() takes 1 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+
+    QuickGame_Tilemap_Build(tilemap);
+
+    return 0;
+}
+
+static int lua_qg_tilemap_intersects(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 2)
+        return luaL_error(L, "Error: Tilemap:intersects() takes 2 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+    QGSprite_t sprite2 = *getSpriten(L, 2);
+
+    bool i = QuickGame_Tilemap_Intersects(tilemap, sprite2->transform);
+
+    lua_pushboolean(L, i);
+    return 1;
+}
+
+
+static int lua_qg_tilemap_draw_string(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 4)
+        return luaL_error(L, "Error: Tilemap:draw_string() takes 4 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+    int x = luaL_checkint(L, 2);
+    int y = luaL_checkint(L, 3);
+    const char* str = luaL_checkstring(L, 4);
+
+    QGVector2 pos = {
+        .x = x,
+        .y = y
+    };
+
+    QuickGame_Tilemap_Draw_String(tilemap, str, pos);
+
+    return 0;
+}
+
+
+static int lua_qg_tilemap_set_tile(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 9)
+        return luaL_error(L, "Error: Tilemap:set_tile() takes 9 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+    int idx = luaL_checkint(L, 2);
+    int x = luaL_checkint(L, 3);
+    int y = luaL_checkint(L, 4);
+    int w = luaL_checkint(L, 5);
+    int h = luaL_checkint(L, 6);
+    int aidx = luaL_checkint(L, 7);
+    int color = luaL_checkint(L, 8);
+    int collide = luaL_checkint(L, 9);
+
+    QGTile t = {
+        .position = {.x = x, .y = y},
+        .scale = {.x = w, .y = h},
+        .atlas_idx = aidx,
+        .color.color = color,
+        .collide = collide
+    };
+
+    tilemap->tile_array[idx] = t;
+
+    return 0;
+}
+
+static int lua_qg_tilemap_set_position(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 3)
+        return luaL_error(L, "Error: Tilemap:set_position() takes 3 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+    int x = luaL_checkint(L, 2);
+    int y = luaL_checkint(L, 3);
+
+    tilemap->transform.position.x = x;
+    tilemap->transform.position.y = y;
+
+    return 0;
+}
+static int lua_qg_tilemap_set_scale(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 3)
+        return luaL_error(L, "Error: Tilemap:set_scale() takes 3 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+    int w = luaL_checkint(L, 2);
+    int h = luaL_checkint(L, 3);
+
+    tilemap->transform.scale.x = w;
+    tilemap->transform.scale.y = h;
+
+    return 0;
+}
+
+static int lua_qg_tilemap_set_rotation(lua_State* L) {
+    int argc = lua_gettop(L);
+    if (argc != 2)
+        return luaL_error(L, "Error: Tilemap:set_rotation() takes 2 arguments.");
+
+    QGTilemap_t tilemap = *getTilemap(L);
+    f32 rot = luaL_checknumber(L, 2);
+
+    tilemap->transform.rotation = rot;
+
+    return 0;
+}
+
+static const luaL_Reg tileLib[] = {
+	{"create", lua_qg_tilemap_create},
+	{"destroy", lua_qg_tilemap_destroy},
+	{"build", lua_qg_tilemap_build},
+	{"draw", lua_qg_tilemap_draw},
+	{"draw_string", lua_qg_tilemap_draw_string},
+	{"set_tile", lua_qg_tilemap_set_tile},
+	{"intersects", lua_qg_tilemap_intersects},
+	{"set_position", lua_qg_tilemap_set_position},
+	{"set_rotation", lua_qg_tilemap_set_rotation},
+	{"set_scale", lua_qg_tilemap_set_scale},
+	{0,0}
+};
+
+static const luaL_Reg tileMetaLib[] = {
+	{"__gc", lua_qg_tilemap_destroy},
+	{0,0}
+};
+
+void initialize_tilemap(lua_State* L) {
+        int lib_id, meta_id;
+
+    // new class = {}
+    lua_createtable(L, 0, 0);
+    lib_id = lua_gettop(L);
+
+    // meta table = {}
+    luaL_newmetatable(L, "Tilemap");
+    meta_id = lua_gettop(L);
+    luaL_setfuncs(L, tileMetaLib, 0);
+
+    // meta table = methods
+    luaL_newlib(L, tileLib);
+    lua_setfield(L, meta_id, "__index");  
+
+    // meta table.metatable = metatable
+    luaL_newlib(L, tileMetaLib);
+    lua_setfield(L, meta_id, "__metatable");
+
+    // class.metatable = metatable
+    lua_setmetatable(L, lib_id);
+
+    // AudioClip
+    lua_setglobal(L, "Tilemap");
+}

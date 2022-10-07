@@ -209,7 +209,8 @@ void qg_lua_init() {
     //Transform Object
     initialize_transform(L);
     
-    //TODO: Tilemap Object
+    //Tilemap Object
+    initialize_tilemap(L);
 }
 
 /**
