@@ -112,6 +112,70 @@ void QuickGame_Sprite_Destroy(QGSprite_t* sprite) {
     *sprite = NULL;
 }
 
+QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size, float u1, float v1, float w, float h, QGTexture_t texture) 
+{
+    if(!texture)
+        return NULL;
+
+    QGSprite_t sprite = QuickGame_Allocate(sizeof(QGSprite));
+    if(!sprite)
+        return NULL;
+
+    sprite->layer = 0;
+    sprite->color.color = 0xFFFFFFFF;
+
+    sprite->transform.position.x = position.x;
+    sprite->transform.position.y = position.y;
+    sprite->transform.scale = size;
+    sprite->aabb_size = size;
+    sprite->texture = texture;
+
+    sprite->mesh = QuickGame_Graphics_Create_Mesh(QG_VERTEX_TYPE_TEXTURED, 4, 6);
+    if(!sprite->mesh) {
+        QuickGame_Destroy(sprite);
+        return NULL;
+    }
+	
+	
+    QGTexturedVertex* verts = sprite->mesh->data;
+    
+    verts[0].u = (texture->width - u1) / texture->width;
+    verts[0].v = (texture->height - v1 + h)/ texture->height;
+    verts[0].x = -0.5f;
+    verts[0].y = -0.5f;
+    verts[0].z = 0.0f;
+    
+    verts[1].u = (texture->width - u1 + w) / texture->width;
+    verts[1].v = (texture->height - v1 + h) / texture->height;
+    verts[1].x = 0.5f;
+    verts[1].y = -0.5f;
+    verts[1].z = 0.0f;
+
+    verts[2].u = (texture->width - u1 + w) / texture->width;
+    verts[2].v = (texture->height - v1)/ texture->height;
+    verts[2].x = 0.5f;
+    verts[2].y = 0.5f;
+    verts[2].z = 0.0f;
+
+    verts[3].u = (texture->width - u1) / texture->width;
+    verts[3].v = (texture->height - v1) / texture->height;
+    verts[3].x = -0.5f;
+    verts[3].y = 0.5f;
+    verts[3].z = 0.0f;
+    u16* indices = sprite->mesh->indices;
+    indices[0] = 0;
+    indices[1] = 1;
+    indices[2] = 2;
+    indices[3] = 2;
+    indices[4] = 3;
+    indices[5] = 0;
+
+    sceKernelDcacheWritebackInvalidateAll();
+
+    return sprite;
+}
+
+
 /**
  * @brief 
  * 

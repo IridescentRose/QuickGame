@@ -65,6 +65,21 @@ QGSprite_t QuickGame_Sprite_Create_Alt(float x, float y, float w, float h, QGTex
 QGSprite_t QuickGame_Sprite_Create_Contained(float x, float y, float w, float h, QGTexInfo tex_info);
 
 /**
+ * @brief Creates a sprite
+ * 
+ * @param position Position of sprite
+ * @param size Size of sprite
+ * @param u1 top left image x cord
+ * @param v1 top left image y cord
+ * @param w width of the selected rect
+ * @param h height of the selected rect
+ * @param texture Texture to use
+ * @return QGSprite_t Sprite result or NULL if failed
+ */
+QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size, float u1, float v1, float w, float h, QGTexture_t texture);
+
+
+/**
  * @brief Destroy a sprite and sets it to NULL
  * 
  * @param sprite Pointer to Sprite
