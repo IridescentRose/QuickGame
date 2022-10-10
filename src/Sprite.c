@@ -139,31 +139,37 @@ QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size
     float wRatio = (float)texture->width / (float)texture->pWidth;
     float hRatio = (float)texture->height / (float)texture->pHeight;
 	
+    float ux = (float)(u1) / (float)texture->width;
+    float uw = (float)(u1 + w) / (float)texture->width;
+
+    float vy = (float)(v1) / (float)texture->height;
+    float vh = (float)(v1 + h) / (float)texture->height;
+
     QGTexturedVertex* verts = sprite->mesh->data;
-    
-    verts[0].u = (texture->width - u1) / texture->width;
-    verts[0].v = (texture->height - v1 + h)/ texture->height;
+    verts[0].u = ux;
+    verts[0].v = vh;
     verts[0].x = -0.5f;
     verts[0].y = -0.5f;
     verts[0].z = 0.0f;
     
-    verts[1].u = (texture->width - u1 + w) / texture->width;
-    verts[1].v = (texture->height - v1 + h) / texture->height;
+    verts[1].u = uw;
+    verts[1].v = vh;
     verts[1].x = 0.5f;
     verts[1].y = -0.5f;
     verts[1].z = 0.0f;
 
-    verts[2].u = (texture->width - u1 + w) / texture->width;
-    verts[2].v = (texture->height - v1)/ texture->height;
+    verts[2].u = uw;
+    verts[2].v = vy;
     verts[2].x = 0.5f;
     verts[2].y = 0.5f;
     verts[2].z = 0.0f;
 
-    verts[3].u = (texture->width - u1) / texture->width;
-    verts[3].v = (texture->height - v1) / texture->height;
+    verts[3].u = ux;
+    verts[3].v = vy;
     verts[3].x = -0.5f;
     verts[3].y = 0.5f;
     verts[3].z = 0.0f;
+
     u16* indices = sprite->mesh->indices;
     indices[0] = 0;
     indices[1] = 1;
