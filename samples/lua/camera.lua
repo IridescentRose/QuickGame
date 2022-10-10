@@ -8,8 +8,8 @@ Graphics.set_clear_color(clear_col)
 
 timer = Timer.create()
 camera = Camera.create()
-cx = 240.0
-cy = 136.0
+cx = 0.0
+cy = 0.0
 cr = 0.0
 
 Graphics.set_camera(camera)

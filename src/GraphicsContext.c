@@ -45,8 +45,8 @@ void QuickGame_Graphics_Start_Frame() {
         glLoadIdentity();
 
         ScePspFVector3 temp = {
-            .x = cam_ptr->position.x - 240,
-            .y = cam_ptr->position.y - 136,
+            .x = -cam_ptr->position.x,
+            .y = -cam_ptr->position.y,
             .z = 0,
         };
 

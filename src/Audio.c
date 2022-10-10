@@ -45,8 +45,8 @@ void QuickGame_Audio_Set_Looping(QGAudioClip_t clip, bool looping) {
 void QuickGame_Audio_Set_Volume(QGAudioClip_t clip, f32 volume) {
     if(clip == NULL)
         return;
-    ((OSL_SOUND*)clip->data)->volumeLeft = volume * 100;
-    ((OSL_SOUND*)clip->data)->volumeRight = volume * 100;
+    ((OSL_SOUND*)clip->data)->volumeLeft = (1.0f-volume) * 100;
+    ((OSL_SOUND*)clip->data)->volumeRight = (1.0f-volume) * 100;
 }
 
 void QuickGame_Audio_Set_Pan(QGAudioClip_t clip, f32 pan) {

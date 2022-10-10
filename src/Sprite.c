@@ -50,30 +50,33 @@ QGSprite_t QuickGame_Sprite_Create(QGVector2 position, QGVector2 size, QGTexture
         return NULL;
     }
 
+    float wRatio = (float)texture->width / (float)texture->pWidth;
+    float hRatio = (float)texture->height / (float)texture->pHeight;
+
     QGTexturedVertex* verts = sprite->mesh->data;
-    verts[0].u = 0.0f;
-    verts[0].v = 0.0f;
+    verts[0].u = 0.0f * wRatio;
+    verts[0].v = 0.0f * hRatio;
     verts[0].x = -0.5f;
     verts[0].y = -0.5f;
     verts[0].z = 0.0f;
 
 
-    verts[1].u = 1.0f;
-    verts[1].v = 0.0f;
+    verts[1].u = 1.0f * wRatio;
+    verts[1].v = 0.0f * hRatio;
     verts[1].x = 0.5f;
     verts[1].y = -0.5f;
     verts[1].z = 0.0f;
 
 
-    verts[2].u = 1.0f;
-    verts[2].v = 1.0f;
+    verts[2].u = 1.0f * wRatio;
+    verts[2].v = 1.0f * hRatio;
     verts[2].x = 0.5f;
     verts[2].y = 0.5f;
     verts[2].z = 0.0f;
 
 
-    verts[3].u = 0.0f;
-    verts[3].v = 1.0f;
+    verts[3].u = 0.0f * wRatio;
+    verts[3].v = 1.0f * hRatio;
     verts[3].x = -0.5f;
     verts[3].y = 0.5f;
     verts[3].z = 0.0f;
