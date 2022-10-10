@@ -136,6 +136,8 @@ QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size
         return NULL;
     }
 	
+    float wRatio = (float)texture->width / (float)texture->pWidth;
+    float hRatio = (float)texture->height / (float)texture->pHeight;
 	
     QGTexturedVertex* verts = sprite->mesh->data;
     
@@ -169,6 +171,11 @@ QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size
     indices[3] = 2;
     indices[4] = 3;
     indices[5] = 0;
+
+    for(int i = 0; i < 4; i++){
+        verts[i].u *= wRatio;
+        verts[i].v *= hRatio;
+    }
 
     sceKernelDcacheWritebackInvalidateAll();
 
