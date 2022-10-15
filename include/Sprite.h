@@ -87,9 +87,9 @@ QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size
 void QuickGame_Sprite_Destroy(QGSprite_t* sprite);
 
 /**
- * @brief 
+ * @brief Draws a sprite to the screen
  * 
- * @param sprite 
+ * @param sprite Sprite to draw
  */
 void QuickGame_Sprite_Draw(QGSprite_t sprite);
 
@@ -99,6 +99,21 @@ enum QGDirection{
     QG_DIR_LEFT = 3,
     QG_DIR_RIGHT = 4,
 };
+
+enum QGFlip {
+    QG_FLIP_NONE        = 0x00,
+    QG_FLIP_VERTICAL    = 0x01,
+    QG_FLIP_HORIZONTAL  = 0x02,
+    QG_FLIP_BOTH        = 0x03
+};
+
+/**
+ * @brief Draws a sprite to the screen
+ * 
+ * @param sprite Sprite to draw
+ * @param flip Flip type
+ */
+void QuickGame_Sprite_Draw_Flipped(QGSprite_t sprite, uint8_t flip);
 
 /**
  * @brief Intersection Detection

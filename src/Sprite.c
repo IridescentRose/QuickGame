@@ -188,12 +188,6 @@ QGSprite_t QuickGame_Sprite_Create_Drakonchik(QGVector2 position, QGVector2 size
     return sprite;
 }
 
-
-/**
- * @brief 
- * 
- * @param sprite 
- */
 void QuickGame_Sprite_Draw(QGSprite_t sprite) {
     if(!sprite)
         return;
@@ -215,7 +209,41 @@ void QuickGame_Sprite_Draw(QGSprite_t sprite) {
     QuickGame_Texture_Bind(sprite->texture);
     QuickGame_Graphics_Draw_Mesh(sprite->mesh);
     QuickGame_Texture_Unbind(sprite->texture);
+}
 
+
+void QuickGame_Sprite_Draw_Flipped(QGSprite_t sprite, uint8_t flip){
+    if(!sprite)
+        return;
+
+    glMatrixMode(GL_MODEL);
+    glLoadIdentity();
+
+    // Note: Could be optimized to just an xor
+    if(flip == QG_FLIP_HORIZONTAL || flip == QG_FLIP_VERTICAL)
+        glFrontFace(GL_CW);
+
+    ScePspFVector3 v1 = {sprite->transform.position.x, sprite->transform.position.y, sprite->layer};
+    gluTranslate(&v1);
+
+    if(flip == QG_FLIP_HORIZONTAL || flip == QG_FLIP_BOTH)
+        gluRotateY(GL_PI);
+
+    if(flip == QG_FLIP_VERTICAL || flip == QG_FLIP_BOTH)
+        gluRotateX(GL_PI);
+
+    gluRotateZ(sprite->transform.rotation / 180.0f * GL_PI);
+
+    ScePspFVector3 v = {sprite->transform.scale.x, sprite->transform.scale.y, 1.0f};
+    gluScale(&v); 
+    
+    glColor(sprite->color.color);
+
+    QuickGame_Texture_Bind(sprite->texture);
+    QuickGame_Graphics_Draw_Mesh(sprite->mesh);
+    QuickGame_Texture_Unbind(sprite->texture);
+
+    glFrontFace(GL_CCW);
 }
 
 
