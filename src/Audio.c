@@ -33,7 +33,8 @@ void QuickGame_Audio_Destroy(QGAudioClip_t* clip){
         return;
     
     oslDeleteSound((*clip)->data);
-    QuickGame_Destroy(clip);
+    QuickGame_Destroy(*clip);
+    *clip = NULL;
 }
 
 void QuickGame_Audio_Set_Looping(QGAudioClip_t clip, bool looping) {
