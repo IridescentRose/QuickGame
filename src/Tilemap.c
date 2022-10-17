@@ -138,10 +138,13 @@ void QuickGame_Tilemap_Build(QGTilemap_t tilemap) {
         float tw = tx + tile->scale.x;
         float th = ty + tile->scale.y;
 
-        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 0] = create_vert(buf[0], buf[1], color, tx, ty, 0.0f);
-        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 1] = create_vert(buf[2], buf[3], color, tw, ty, 0.0f);
-        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 2] = create_vert(buf[4], buf[5], color, tw, th, 0.0f);
-        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 3] = create_vert(buf[6], buf[7], color, tx, th, 0.0f);
+        float wRatio = (float)tilemap->texture->width / (float)tilemap->texture->pWidth;
+        float hRatio = (float)tilemap->texture->height / (float)tilemap->texture->pHeight;
+
+        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 0] = create_vert(buf[0] * wRatio, buf[1] * hRatio, color, tx, ty, 0.0f);
+        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 1] = create_vert(buf[2] * wRatio, buf[3] * hRatio, color, tw, ty, 0.0f);
+        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 2] = create_vert(buf[4] * wRatio, buf[5] * hRatio, color, tw, th, 0.0f);
+        ((QGFullVertex*)tilemap->mesh->data)[idx * 4 + 3] = create_vert(buf[6] * wRatio, buf[7] * hRatio, color, tx, th, 0.0f);
 
         tilemap->mesh->indices[idx * 6 + 0] = (idx * 4) + 0;
         tilemap->mesh->indices[idx * 6 + 1] = (idx * 4) + 1;
