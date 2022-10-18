@@ -416,6 +416,16 @@ class Sprite {
         QuickGame_Sprite_Draw(ir);
     }
 
+    inline auto draw_flipped(uint8_t flip) noexcept -> void {
+        if(ir == nullptr)
+            return;
+
+        ir->transform = transform;
+        ir->layer = layer;
+
+        QuickGame_Sprite_Draw_Flipped(ir, flip);
+    }
+    
     inline auto intersects(Sprite& other) noexcept -> bool {
         return QuickGame_Sprite_Intersects(ir, other.ir);
     }
