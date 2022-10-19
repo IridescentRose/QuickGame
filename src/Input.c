@@ -33,7 +33,7 @@ bool QuickGame_Button_Released(u32 buttons) {
 }
 
 f32 QuickGame_Analog_X() {
-    float v = ((float)(padData.Lx - 127)) / 255.0f;
+    float v = (float)padData.Lx / 255.0f;
     v -= 0.5f;
     v *= 2.0f;
 
@@ -41,7 +41,7 @@ f32 QuickGame_Analog_X() {
 }
 
 f32 QuickGame_Analog_Y() {
-    float v = ((float)(padData.Ly - 127)) / 255.0f;
+    float v = (float)padData.Ly / 255.0f;
     v -= 0.5f;
     v *= 2.0f;
 
