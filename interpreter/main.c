@@ -13,6 +13,48 @@
 #include "input.h"
 #include "audio.h"
 #include "sprite.h"
+#include <stdlib.h>
+
+#define RAM_BLOCK 1024
+u32 ramAvailableMax(void)
+		{
+			u32 size, sizeblock;
+			u8* ram;
+
+
+			// Init variables
+			size = 0;
+			sizeblock = RAM_BLOCK;
+
+			// Check loop
+			while (sizeblock)
+			{
+				// Increment size
+				size += sizeblock;
+
+				// Allocate ram
+				ram = (u8*)malloc(size);
+
+				// Check allocate
+				if (!(ram))
+				{
+					// Restore old size
+					size -= sizeblock;
+
+					// Size block / 2
+					sizeblock >>= 1;
+				}
+				else
+					free(ram);
+			}
+
+			return size;
+		}
+
+static int lua_memfree(lua_State* L) {
+    lua_pushinteger(L, ramAvailableMax());
+    return 1;
+}
 
 static int lua_print(lua_State* L) {
     pspDebugScreenInit();
@@ -178,6 +220,7 @@ void qg_lua_init() {
     L = luaL_newstate();
 	luaL_openlibs(L);
     lua_register(L, "print", lua_print);
+    lua_register(L, "memoryfree", lua_memfree);
 
     //QuickGame Lib
     initialize_quickgame(L);
